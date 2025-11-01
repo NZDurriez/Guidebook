@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Specialist Police Units</title>
+  <style>
+    /* ---------- Global Styles ---------- */
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-y: scroll;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    html {
+      scrollbar-width: none;
+    }
+    
+    /* ---------- Container ---------- */
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      border-radius: 10px;
+    }
+    
+    h2.title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    
+    p.instruction, p.note {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    /* ---------- List Styling ---------- */
+    ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    /* ---------- Details / Dropdown Styling ---------- */
+    details {
+      margin-bottom: 20px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background: #2a2a2a;
+      padding: 10px;
+    }
+    details summary {
+      font-size: 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+      outline: none;
+      margin-bottom: 10px;
+      list-style: none;
+    }
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+    
+    ul.command-list {
+      list-style-type: decimal;
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+    ul.command-list li {
+      margin-bottom: 8px;
+    }
+    
+    code {
+      background: #555;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: monospace;
+      color: #fff;
+    }
+    
+    a {
+      color: #58a;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    /* ---------- Back to Top Button ---------- */
+    #backToTop {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 20px auto 0 auto;
+      display: block;
+    }
+	
+	ul.plain-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">Specialist Police Units</h2>
+    <p class="instruction">
+      Specialist Police Units include:<br>
+      Dogs (Delta), Air Support Unit (Eagle), Maritime (Water), Armed Offenders Squad (AOS), and Police Negotiation Team (PNT)
+    </p>
+    <ul>
+      <li>Dogs (Delta)</li>
+      <li>Air Support Unit (Eagle)</li>
+      <li>Maritime (Water)</li>
+      <li>Armed Offenders Squad (AOS)</li>
+      <li>Police Negotiation Team (PNT)</li>
+    </ul>
+    <p class="note">
+      Delta and Eagle do not require applications. However, if you want a Delta callsign you must apply through the <strong>#fivepd-callsign-requests</strong> Discord channel.
+    </p>
+    
+    <!-- Delta / Dog Commands Collapsible Section -->
+    <details>
+      <summary class="section-heading">Delta / Dog Commands</summary>
+      <ul class="plain-list">
+        <li><code>/dog</code> – Spawns in/removes a dog
+        <li><code>/dogx</code> – Cancels your dog's current emote</li>
+        <li><code>/dsit</code> – Makes your dog return to you and sit</li>
+        <li><code>/dlay</code> – Makes your dog return to you and lie down</li>
+        <li><code>/dtrack &lt;id&gt;</code> – Makes your dog track an offender</li>
+        <li><code>/dctrack</code> – Stops dog tracking</li>
+        <li><code>/dhold</code> – Holds the dog between your legs</li>
+        <li><code>/dbark</code> – Makes the dog bark</li>
+        <li><code>/dheel</code> – Commands the dog to come off the lead and heel</li>
+        <li><code>/dtp</code> – Teleports your dog to you</li>
+        <li><code>/dcar</code> – Makes your dog exit/enter your car</li>
+        <li><code>/dattack</code> – Commands your dog to attack the player you are aiming at</li>
+      </ul>
+    </details>
+    
+    <!-- AOS / PNT Collapsible Section -->
+    <details>
+      <summary class="section-heading">Armed Offenders Squad (AOS) / Police Negotiation Team (PNT)</summary>
+      <p>
+        AOS and PNT are the only Specialist Units that require an application to join. You cannot roleplay or act as a member of these units unless you are accepted.
+      </p>
+      <p>
+        <strong>Applications:</strong>
+      </p>
+      <ul class="plain-list">
+        <li>
+          <strong><u>Armed Offenders Squad (AOS):</u></strong><br>
+          Apply via <a href="https://www.beehiverp.com/application/form/16-fivepd-aos-application/" target="_blank" style="color:orange;">FivePD AOS Application</a>
+        </li>
+        <li>
+          <strong><u>Police Negotiation Team (PNT):</u></strong><br>
+          Apply by <a href="https://discord.com/channels/815563382211739670/943801829777612860" target="_blank" style="color:orange; ">Creating A Ticket</a> and submitting an in-character ticket.
+        </li>
+      </ul>
+    </details>
+     
+    <!-- Back to Top Button -->
+    <button id="backToTop">Back to Top</button>
+  </div>
+  
+  <script>
+    // Back to Top Button functionality.
+    document.getElementById("backToTop").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
