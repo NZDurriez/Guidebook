@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scene Ideas - Police</title>
+  <style>
+    /* ---------- Global Styles ---------- */
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-y: scroll;
+    }
+    /* Hide scrollbar in WebKit */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar in Firefox */
+    html {
+      scrollbar-width: none;
+    }
+    
+    /* ---------- Container ---------- */
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      border-radius: 10px;
+    }
+    
+    h2.title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    
+    p.instruction {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    /* ---------- Button Styles ---------- */
+    .btn-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .btn-container button {
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 5px;
+    }
+    .btn-blue {
+      background: #007bff;
+      color: white;
+    }
+    .btn-red {
+      background: #ff4d4d;
+      color: white;
+    }
+    .btn-yellow {
+      background: #ffc107;
+      color: black;
+    }
+    
+    /* ---------- Table Styling ---------- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #555;
+      font-family: monospace;
+      word-break: break-word;
+    }
+    th {
+      background: #444;
+      font-weight: bold;
+    }
+    tbody tr:nth-child(odd) {
+      background: #555;
+    }
+    tbody tr:nth-child(even) {
+      background: #444;
+    }
+    
+    /* ---------- Back to Top Button ---------- */
+    #backToTop {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 20px auto 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">Scene Ideas</h2>
+    <p class="instruction">
+      This list provides examples of varied, engaging scenes for RP.<br>
+      Use the <code>/111</code> command (or <code>/startfire</code> for fires) to submit a call/scene.
+    </p>
+
+    <!-- Buttons for Category Selection -->
+    <div class="btn-container">
+      <button id="btnPolice" class="btn-blue">Police Scenes</button>
+      <button id="btnFire" class="btn-red">Fire Scenes</button>
+      <button id="btnAmbulance" class="btn-yellow">Ambulance Scenes</button>
+    </div>
+
+    <!-- Table for Scene Ideas -->
+    <table id="sceneTable">
+      <thead>
+        <tr>
+          <th>Event Code - Title</th>
+          <th>Scene Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be inserted dynamically -->
+      </tbody>
+    </table>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop">Back to Top</button>
+  </div>
+
+  <script>
+    /* ---------- Data Arrays ---------- */
+    // Police Scenes
+    const policeScenes = [
+      { code: "1110", title: "Homicide", example: "A male has been murdered as a result of a stabbing at the Yellow Jack Bar." },
+      { code: "1210", title: "Kidnapping/Abduction", example: "Male in a black Ford Ranger has kidnapped/abducted a well-known business owner from his workplace." },
+      { code: "1310", title: "Robbery", example: "The Jewellery Store has been robbed during business hours by four teenagers with hammers in a white Nissan Tiida. A male wearing dark clothing has snatched a purse from a female walking on Power Street, Wellington." },
+      { code: "1410", title: "Grevious Assaults", example: "Male has had his left arm broken after being assaulted at the Oriental Bay Beach, Te Aro." },
+      { code: "1510", title: "Serious Assaults", example: "There are five males punching and kicking an unconscious person laying on the ground outside 041 Paleto Boulevard." },
+      { code: "1640", title: "Minor Assaults", example: "A female store worker has been punched in the arm by shoplifters at Kmart Porirua." },
+      { code: "1710", title: "Intimidation/Threats", example: "A male has received a text message telling him to watch his back after an argument with friends; another incident involves a threat to punch a store worker after a confrontation regarding pricing." },
+      { code: "1820", title: "Unlawful Assembly", example: "A large protest about banning Ford Falcons from Wellington CBD is taking place outside Courtenay Place." },
+      { code: "1830", title: "Crimes Against Personal Property", example: "A middle-aged male has just stolen a garden gnome from his neighbour's backyard." },
+      { code: "1840", title: "Harassment", example: "Female seen dropping off an abusive letter at an informant's letterbox; an unknown male has been following an informant's vehicle for 30 minutes." },
+      // Other Event Types (self-explanatory, examples not provided)
+      { code: "3110", title: "Drugs (Not Cannabis)", example: "" },
+      { code: "3210", title: "Drugs (Cannabis Only)", example: "" },
+      { code: "3518", title: "Health Act Breach", example: "" },
+      { code: "3530", title: "Disorder", example: "" },
+      { code: "3850", title: "Protection Order Breach", example: "" },
+      { code: "3910", title: "Liquor Offences", example: "" },
+      { code: "3985", title: "Breach of Local Council Liquor Ban", example: "" },
+      { code: "4120", title: "Burglary", example: "" },
+      { code: "4211", title: "Car Conversion", example: "" },
+      { code: "4220", title: "Interference with Cars", example: "" },
+      { code: "4320", title: "Theft Ex Shop", example: "" },
+      { code: "4340", title: "Theft Ex Car", example: "" },
+      { code: "4370", title: "General Theft", example: "" },
+      { code: "4378", title: "Theft of Boat", example: "" },
+      { code: "4410", title: "Receiving", example: "" },
+      { code: "4530", title: "Fraud", example: "" },
+      { code: "4630", title: "Computer Crime", example: "" },
+      { code: "5110", title: "Arson", example: "" },
+      { code: "5120", title: "Wilful Damage", example: "" },
+      { code: "5134", title: "Wilful Damage - Graffiti", example: "" },
+      { code: "5210", title: "Endangering/Interfering", example: "" },
+      { code: "5810", title: "Gambling", example: "" },
+      { code: "6110", title: "Trespass", example: "" },
+      { code: "6220", title: "Littering", example: "" },
+      { code: "6340", title: "Injures Police Dog", example: "" },
+      { code: "6390", title: "Animal Welfare Offences", example: "" },
+      { code: "6520", title: "Postal/Rail/Fire Service Abuses", example: "" },
+      { code: "6550", title: "Telephone Offences", example: "" },
+      { code: "6820", title: "Firearms Offences", example: "" },
+      { code: "7120", title: "Justice Offences", example: "" },
+      { code: "7130", title: "Escapes Custody", example: "" },
+      { code: "7210", title: "Births/Deaths/Marriages", example: "" },
+      { code: "7310", title: "Immigration", example: "" },
+      { code: "7410", title: "Race Relations", example: "" },
+      { code: "7510", title: "Blood Samples", example: "" },
+      { code: "7610", title: "Bylaw Breachs", example: "" },
+      { code: "7650", title: "Dog Control", example: "" },
+      { code: "7935", title: "CDEM Act Breach", example: "" },
+      { code: "NSEC", title: "No Speech Emergency Call", example: "" },
+      { code: "1A", title: "Alarm Sounding", example: "" },
+      { code: "1C", title: "Car/Person Acting Suspiciously", example: "" },
+      { code: "1I", title: "Blockage/Breakdown on Highway", example: "" },
+      { code: "1K", title: "Drunk Custody/Detox Centre", example: "" },
+      { code: "1L", title: "Land Rescue", example: "" },
+      { code: "1N", title: "Noise Control", example: "" },
+      { code: "1P", title: "Premises Insecure", example: "" },
+      { code: "1R", title: "Breach of the Peace", example: "" },
+      { code: "1U", title: "Traffic Offending", example: "" },
+      { code: "1V", title: "Vehicle Collision", example: "" },
+      { code: "1VA", title: "Vehicle Collision - Autonomous Alert", example: "" },
+      { code: "1W", title: "Water/Sea Rescue/Emergency", example: "" },
+      { code: "2C", title: "Civil Dispute", example: "" },
+      { code: "2E", title: "Remove Fences/Structures/Vegetation", example: "" },
+      { code: "2I", title: "Information", example: "" },
+      { code: "2K", title: "Found Property", example: "" },
+      { code: "2L", title: "Lost Property", example: "" },
+      { code: "2M", title: "Missing Person", example: "" },
+      { code: "2P", title: "Public Relations", example: "" },
+      { code: "2R", title: "Recovery Motor Vehicle", example: "" },
+      { code: "2S", title: "Summons", example: "" },
+      { code: "2T", title: "Warrant to Arrest/Fines Enforcement", example: "" },
+      { code: "2W", title: "Arrest Warrant (Other)", example: "" },
+      { code: "3A", title: "Attend Crime Scene/Incident", example: "" },
+      { code: "3C", title: "Crime Prevention Advice", example: "" },
+      { code: "3R", title: "Road Checkpoint", example: "" },
+      { code: "3T", title: "Turnover", example: "" },
+      { code: "3W", title: "Watch/Observations", example: "" },
+      { code: "4F", title: "Forensic Examination", example: "" },
+      { code: "4L", title: "Logistics/Staff Transport", example: "" },
+      { code: "4P", title: "Public Entertainment Duty", example: "" },
+      { code: "4X", title: "Execute Search Warrant", example: "" },
+      { code: "5F", title: "Family Harm", example: "" },
+      { code: "5H", title: "EM Bail Check", example: "" },
+      { code: "5K", title: "Bail Check", example: "" },
+      { code: "5M", title: "Parole Recall Warrant", example: "" },
+      { code: "5V", title: "Second hand dealer check", example: "" },
+      { code: "6D", title: "Bail Breach", example: "" },
+      { code: "6E", title: "EM Bail Breach", example: "" },
+      { code: "6I", title: "Unauthorised Street and Drag Racing", example: "" }
+    ];
+
+    // Fire Scenes
+    const fireScenes = [
+      { code: "AIRH", title: "Aircraft Heavy", example: "Boeing 777, Full Emergency, Engine Failure, 250 persons on board, 83L of fuel, No DG, ETA 10mins." },
+      { code: "AIRL", title: "Aircraft Light", example: "Cessna 172, Local Standby, Smoke in Cockpit, 2 persons on board, 14L of fuel, No DG, ETA 25mins." },
+      { code: "HAZ", title: "Hazardous Materials Incident", example: "40ft Container leaking an unknown yellow liquid substance and fumes at P939, Ports of Wellington." },
+      { code: "HAZGAS", title: "Gas Leak", example: "Digger doing earthworks at a private property has struck a Gas Main outside P571." },
+      { code: "MED", title: "Medical Assistance (Co-Response/Ambulance Purple)", example: "Unconscious/cardiac/respiratory arrest, primarily used for Purple incidents from Ambulance." },
+      { code: "MIN", title: "Minor Event", example: "Car Fire; Powerlines on Fire; Small Fuel Spill; Cat stuck up a tree." },
+      { code: "MVC", title: "Motor Vehicle Crash (No Persons Trapped)", example: "Car vs Car; Car vs Powerpole." },
+      { code: "MVCRESC", title: "MVC - Persons Trapped", example: "Car vs Car; Car vs Powerpole; Car Fire with persons reported." },
+      { code: "MVCHEVY", title: "MVC - Heavy (Involving Heavy Vehicle/Building)", example: "Car vs Train; Bus vs Truck; Car vs Building; Truck vs Truck." },
+      { code: "RESC", title: "Rescue (Not MVC)", example: "Person stuck in an elevator; Person trapped in machinery." },
+      { code: "SHIP", title: "Ship Fire", example: "Cargo Ship on Fire; Cruise Ship on Fire." },
+      { code: "SPRNKLR", title: "Sprinkler Investigation", example: "Fire alarms where sprinkler systems are installed." },
+      { code: "STRU", title: "Structure Fire", example: "Kitchen Fire; House/Building Fire; House Fire with persons reported; Fire Alarm Activation; Wall Socket Arcing." },
+      { code: "VEG", title: "Vegetation Fire", example: "Bush Fire; Forest Fire; Scrub Fire." }
+    ];
+
+    // Ambulance Scenes
+    const ambulanceScenes = [
+      { code: "01", title: "Abdominal Pain/Problems", example: "Patient with a Sore Stomach, Rupturing Aortic Aneurysm, Gastroenteritis" },
+      { code: "02", title: "Allergies (reactions)/Envenomations (stings, bites)", example: "Patient touched grass and is now itchy; Patient with a peanut allergy; Anaphylaxis" },
+      { code: "03", title: "Animal Bites/Attacks", example: "Patient bitten by stray dog; A Lion at Wellington Zoo has attacked a zookeeper" },
+      { code: "04", title: "Assault", example: "Person has been hit with a bat; Punched in face during bar fight" },
+      { code: "05", title: "Back Pain", example: "Person bent over shopping and felt a twinge in the left side of the back; Chronic back pain from a previous car accident" },
+      { code: "06", title: "Breathing Problems", example: "Asthma/COPD; Ineffective Breathing (i.e., seizure-like)" },
+      { code: "07", title: "Burns (scalds)/Explosion", example: "Sunburn or minor burns; Building Fire persons reported" },
+      { code: "08", title: "Carbon Monoxide/Inhalation/Hazchem", example: "Mechanic in a workshop with poor ventilation; Office building with CO detector alarm" },
+      { code: "09", title: "Cardiac or Respiratory Arrest/Death", example: "Cardiac arrest with previous history of heart attacks; Respiratory arrest from asthma; Body found in river – missing hiker" },
+      { code: "10", title: "Chest Pain", example: "Heart Attack; Angina" },
+      { code: "11", title: "Choking", example: "Old person at a rest home choking (should be pureed); Woman at a restaurant choking on an engagement ring in a champagne glass" },
+      { code: "12", title: "Convulsions/Fitting", example: "Patient with epilepsy having a seizure; Patient who hit head but is not seizing" },
+      { code: "13", title: "Diabetic Emergency", example: "Type 1 diabetic with insulin pump failure; Type 2 diabetic, obese and non-compliant; Type 1 diabetic unconscious on side of road/on bus – low sugars" },
+      { code: "14", title: "Drawing (near)/Diving/SCUBA Accident", example: "Surfer smashed by a wave and pulled from water, unconscious and not breathing; Fisherman tangled in net on a boat" },
+      { code: "15", title: "Electrocution/Lightning", example: "Farmer setting up electric fence gets zapped; Electrician on power poles electrocuted and hanging from a harness" },
+      { code: "16", title: "Eye Problems", example: "Commercial cleaner exposed to chemicals now blind in both eyes; Patient sneezed and lost an eye (weak eye muscles history)" },
+      { code: "17", title: "Falls", example: "Hiker has fallen approximately 4m onto a ledge; Man has fallen off a roof while installing Christmas lights" },
+      { code: "18", title: "Headache", example: "Patient with sudden severe headache (possible stroke); Patient with headache, body aches, and cold/cough/flu symptoms" },
+      { code: "19", title: "Heart Problems/A.I.C.D", example: "Patient with a new pacemaker feeling irregular; Patient with angina after a walk, GTN spray not working" },
+      { code: "20", title: "Heat/Cold Exposure", example: "Missing hiker found on side of mountain – hyperthermia in summer, hypothermia in winter; Influencer after prolonged sauna and sun tanning" },
+      { code: "21", title: "Haemorrhage/Lacerations", example: "Older patient on blood thinners who fell and hit head, with significant bleeding; Motorbike rider with partial degloving/amputation after a sharp turn" },
+      { code: "22", title: "Industrial/Machinery Accidents", example: "Factory worker’s hand stuck in machinery (amputation, crush injury); Mechanic under a car as a jack fails and car falls on chest" },
+      { code: "23", title: "Overdose/Poisoning", example: "Patient in a rest home given duplicate dose of metoprolol (lethargic, bradycardic); Couple dining where wife poisons food with mushrooms" },
+      { code: "24", title: "Pregnancy/Birth/Miscarriage", example: "Woman 8 weeks pregnant vomiting; Woman post C-section with infection at the site, tachycardic, febrile, tachypneic" },
+      // '25' is not permitted.
+      { code: "26", title: "Sick Person/Unknown Problem", example: "Cough, feels like something stuck in throat; Blood test indicates need for ED for iron infusion (St John member – ride requested)" },
+      { code: "27", title: "Gunshot/Stab/Penetrating Trauma", example: "Patient tased/shot following a firearms incident; Patient cleaning hunting rifle accidentally shot through leg; Gardener injured by falling tree branch" },
+      { code: "28", title: "Stroke", example: "80-year-old with sudden severe headache and slight blurry vision – stroke; Patient limping on left side with slurred speech; 30-year-old with full right-sided facial droop after drinking with mates" },
+      { code: "29", title: "Transport/Traffic Accidents", example: "Bus vs Truck – multiple patients, some critical; Car vs Motorbike – motorcycle fatality; Cyclist trapped under truck tyre (crush injury)" },
+      { code: "30", title: "Traumatic Injuries", example: "Patient riding horse falls off and is rolled over – abdominal/spinal injuries; Victim of a ram raid with head injury and limb lacerations" },
+      { code: "31", title: "Unconscious/Passing Out (Non-Traumatic)", example: "Patient passed out in bar toilet (only drunk); Elderly faint with possible brain bleed; Construction worker hit head at site, collapses, then seizes" },
+      { code: "35", title: "Acute Admission", example: "Patient with confirmed NSTEMI and angina – requires ED transport; Farm accident with suspected femur fracture; Multi-system trauma requiring CCP accompaniment" },
+      { code: "40", title: "Airport/Police/Fire/SAR Standby/Assist", example: "Assistance requests from other services – not for scene creation" },
+      { code: "60", title: "Patient Transport Services (PTS)", example: "Patient being transported from Porirua Hospital to Wellington City Hospital" }
+    ];
+    
+    /* ---------- DOM Element References ---------- */
+    const sceneTypeSelect = document.getElementById("sceneTypeSelect");
+    const tableBody = document.querySelector("#sceneTable tbody");
+    
+    /* ---------- Helper Functions ---------- */
+    function addRow(item) {
+      const row = document.createElement("tr");
+      const codeCell = document.createElement("td");
+      codeCell.textContent = item.code + " - " + item.title;
+      row.appendChild(codeCell);
+      
+      const exampleCell = document.createElement("td");
+      exampleCell.textContent = item.example;
+      row.appendChild(exampleCell);
+      
+      tableBody.appendChild(row);
+    }
+    
+    function updateTable(data) {
+      tableBody.innerHTML = "";
+      data.forEach(item => addRow(item));
+    }
+    
+    /* ---------- Button Event Listeners ---------- */
+    // Police Scenes Button
+    document.getElementById("btnPolice").addEventListener("click", () => {
+      updateTable(policeScenes);
+    });
+    // Fire Scenes Button
+    document.getElementById("btnFire").addEventListener("click", () => {
+      updateTable(fireScenes);
+    });
+    // Ambulance Scenes Button
+    document.getElementById("btnAmbulance").addEventListener("click", () => {
+      updateTable(ambulanceScenes);
+    });
+    
+    // Show Police Scenes by default on load
+    updateTable(policeScenes);
+    
+    // Back to Top Button functionality
+    document.getElementById("backToTop").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+  
+  <!-- Buttons Container for Scene Type selection (placed outside the main container for clarity) 
+  <div class="container" style="text-align: center; margin-top: 10px;">
+    <button id="btnPolice" class="btn-blue">Police Scenes</button>
+    <button id="btnFire" class="btn-red">Fire Scenes</button>
+    <button id="btnAmbulance" class="btn-yellow">Ambulance Scenes</button>
+  </div>-->
+  
+  <!-- Additional Button Styles (if needed) -->
+  <style>
+    .btn-blue {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 5px;
+    }
+    .btn-red {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 5px;
+    }
+    .btn-yellow {
+      background: #ffc107;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 5px;
+    }
+  </style>
+</body>
+</html>
