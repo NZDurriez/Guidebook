@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Player & Vehicle Interaction</title>
+  <style>
+    /* ---------- Global Styles ---------- */
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 14px; /* smaller text */
+    }
+    /* ---------- Container ---------- */
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #333;
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+      border-radius: 8px;
+    }
+    /* ---------- Title ---------- */
+    .title {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 15px;
+    }
+    /* ---------- Details/Dropdown ---------- */
+    details {
+      margin-bottom: 15px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background: #2a2a2a;
+      padding: 8px;
+    }
+    details summary {
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      outline: none;
+      padding: 4px;
+    }
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+    /* ---------- Text & Lists ---------- */
+    p, ul, li {
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+    ul {
+      margin-left: 16px;
+    }
+    /* ---------- Unified Button/Code Styling ---------- */
+    .cmd {
+      position: relative;
+      display: inline-block;
+      background: #444;
+      color: #ffea75;
+      border: none;
+      padding: 4px 8px;
+      margin: 4px 2px;
+      border-radius: 4px;
+      cursor: default;
+      font-size: 0.9em;
+      font-family: monospace;
+    }
+    .cmd img {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      border: 1px solid #fff;
+      border-radius: 4px;
+      background: #222;
+      padding: 3px;
+      z-index: 10;
+    }
+    .cmd:hover img {
+      display: block;
+    }
+    /* ---------- Full-size override for QP/QVR ---------- */
+    .cmd.fullsize img {
+      max-width: none;
+      width: auto;
+      height: auto;
+    }
+    /* ---------- Observation List Centering ---------- */
+    .obs-list {
+      text-align: center;
+      margin-top: 8px;
+    }
+    /* ---------- Inline Images ---------- */
+    .img-box {
+      display: block;
+      max-width: 100%;
+      margin: 8px auto;
+      border: 1px solid #444;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">Player & Vehicle Interaction</h2>
+
+    <p>Most of the interactions that Police will have with Civilians will be case by case relating to that scene.</p>
+    <p>There are a bunch of different commands that will assist you in getting the most out of your RP.</p>
+
+    <details>
+      <summary>Query Person (QP) and Query Vehicle Rego (QVR)</summary>
+      <p>Vehicle details will be displayed per the registration plate (number plate) located on the vehicle itself.</p>
+      <p><strong>NB:</strong> Bear in mind some vehicle models will not have GTA‑styled plates; although the Development Team does their best to avoid this, sometimes it’s not possible, so please allow some leniency.</p><br></br>
+      <center><p>Once they've given their details, use <span class="cmd fullsize">/QP <img src="QPexample1.png" alt="/QP result (full size)"></span> to run a check for their name and <span class="cmd">/QVR <img src="QVRexample1.png" alt="/QP result (full size)"></span> for their vehicle.</p>
+      <div>
+        <span class="cmd fullsize">/QP (Result)
+          <img src="QPexample.png" alt="/QP result (full size)">
+        </span>
+        <span class="cmd fullsize">/QVR (Result)
+          <img src="QVRexample.png" alt="/QVR result (full size)">
+        </span>
+      </div></center><br></br>
+      <p>If a player fails to respond to their QP/QVR (which should be set up in <span class="cmd">/civ</span>), then use <span class="cmd">/bump ID</span> to remind them. This will send a large, flashing message to the players screen.</p>
+      <p>If a player has not set up their QP/QVR, feel free to direct them to the Civilian Section in the <span class="cmd">/help</span> Guidebook, or to get help from Staff.</p>
+    </details>
+
+    <details>
+      <summary>Civilian Interactions Menu (iMenu)</summary>
+      <p>Use this for Player/Vehicle searches and Roadside Breath Tests:</p>
+      <img src="Imenu.png" alt="IMenu interface" class="img-box">
+      <p>Open chat, type <span class="cmd">/imenu</span>, and select an option</p>
+    </details>
+
+    <details>
+      <summary>Handcuffs / Holding Players</summary>
+      <p>Press T to open chat, then type <span class="cmd">/c</span> to cuff or <span class="cmd">/d</span> to drag.</p>
+      <p><strong>Note:</strong> Bind them in your FiveM keybinds settings.</p>
+      <p><strong>Remember:</strong> Rule 2.5.2 – no tackling to instant‑cuff; suspects must be stationary.</p>
+    </details>
+
+    <details>
+      <summary>Observations</summary>
+      <p>Players can type a few different commands to display certain observations, below are some of the options</p>
+      <div class="obs-list">
+        <span class="cmd">/Alcohol
+          <img src="Alcohol.png" alt="Alcohol observation">
+        </span>
+        <span class="cmd">/Weed
+          <img src="Weed.png" alt="Weed observation">
+        </span>
+        <span class="cmd">/Lplate
+          <img src="LPlate.png" alt="Learner Plate observation">
+        </span>
+        <span class="cmd">/Pink
+          <img src="PinkSticker.png" alt="Pink sticker observation">
+        </span>
+        <span class="cmd">/Green
+          <img src="GreenSticker.png" alt="Green sticker observation">
+        </span>
+      </div>
+    </details>
+  </div>
+</body>
+</html>
