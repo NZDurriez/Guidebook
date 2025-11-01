@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive AOP Map</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      font-family: Calibri, sans-serif;
+      overflow: hidden;
+    }
+
+    .map-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .map-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top left;
+    }
+
+    .map-inner img {
+      width: 2000px;
+      height: 3010px;
+      pointer-events: none;
+      display: block;
+    }
+
+    .map-inner svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2000px;
+      height: 3010px;
+      pointer-events: none;
+    }
+
+    .zone {
+      fill: transparent;
+      pointer-events: all;
+      transition: fill 0.2s ease;
+    }
+
+    .zone.dimmed {
+      fill: rgba(0, 0, 0, 0.6);
+    }
+
+    .zone:hover {
+      fill: rgba(255, 255, 255, 0.1);
+    }
+
+    .info-tooltip {
+      position: fixed;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 6px;
+      line-height: 1.4;
+      max-width: 260px;
+      z-index: 1000;
+      pointer-events: none;
+      display: none;
+      font-family: Calibri, sans-serif;
+      white-space: normal;
+    }
+
+    .instructions {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 6px;
+      line-height: 1.5;
+      max-width: 240px;
+      z-index: 10;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="map-container" id="mapContainer">
+  <div class="instructions">
+    <strong>Map Instructions:</strong><br />
+    🖱️ Scroll to zoom<br />
+    🤏 Pinch to zoom (touch)<br />
+    🖱️ Click + drag to pan<br />
+    🖱️ Hover zones for info
+  </div>
+
+  <div class="map-inner" id="mapInner">
+    <img src="map.png" alt="AOP Map" />
+    <svg viewBox="0 0 2000 3010">
+      <polygon class="zone" data-label="Greater Wellington" points="-2,1797,141,1827,191,1844,219,1862,246,1871,279,1867,302,1860,332,1846,348,1823,360,1791,385,1763,415,1747,459,1731,475,1754,503,1774,532,1763,551,1747,574,1716,592,1693,613,1679,636,1668,660,1663,696,1673,729,1707,750,1730,777,1731,807,1731,833,1728,856,1742,881,1753,904,1747,925,1742,939,1747,957,1769,994,1784,1026,1777,1058,1770,1088,1769,1118,1779,1142,1790,1164,1806,1195,1829,1209,1846,1209,1864,1216,1878,1232,1880,1248,1880,1271,1880,1294,1880,1317,1881,1365,1874,1391,1859,1423,1848,1441,1848,1455,1866,1467,1880,1492,1881,1524,1871,1548,1867,1582,1862,1617,1862,1645,1864,1688,1864,1998,1869,1998,4,1954,0,1908,-2,-2,0,0,104" />
+      <polygon class="zone" data-label="Wellington City" points="-2,2337,0,1795,80,1811,159,1832,193,1843,219,1860,244,1869,290,1862,320,1850,332,1843,346,1823,355,1795,374,1769,401,1751,434,1737,459,1731,472,1749,502,1772,528,1761,549,1744,577,1705,588,1689,623,1671,660,1661,692,1670,745,1724,766,1728,803,1730,833,1726,883,1751,925,1740,939,1746,955,1765,991,1783,1047,1769,1086,1767,1119,1779,1156,1800,1188,1823,1209,1843,1211,1871,1236,1874,1296,1880,1340,1874,1361,1874,1398,1853,1439,1846,1464,1874,1492,1880,1524,1869,1577,1860,1998,1869,1998,2940,1998,3008,0,3009,-2,2919" />
+    </svg>
+  </div>
+
+  <div class="info-tooltip" id="tooltipBox"></div>
+</div>
+
+<script>
+  const mapInner = document.getElementById('mapInner');
+  let scale = 0.5;
+  let origin = { x: 0, y: 0 };
+  let isPanning = false;
+  let start = { x: 0, y: 0 };
+
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+  function updateTransform() {
+    mapInner.style.transform = `translate(${origin.x}px, ${origin.y}px) scale(${scale})`;
+  }
+
+  // Mouse wheel zoom
+  document.getElementById('mapContainer').addEventListener('wheel', e => {
+    e.preventDefault();
+    const rect = mapInner.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const prevScale = scale;
+    const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+
+    scale *= zoomFactor;
+    scale = Math.min(4, Math.max(0.5, scale));
+
+    origin.x -= (mouseX / prevScale) * (scale - prevScale);
+    origin.y -= (mouseY / prevScale) * (scale - prevScale);
+
+    updateTransform();
+  });
+
+  // Pan with mouse
+  document.getElementById('mapContainer').addEventListener('mousedown', e => {
+    isPanning = true;
+    start.x = e.clientX - origin.x;
+    start.y = e.clientY - origin.y;
+  });
+
+  document.addEventListener('mouseup', () => isPanning = false);
+  document.addEventListener('mousemove', e => {
+    if (!isPanning) return;
+    origin.x = e.clientX - start.x;
+    origin.y = e.clientY - start.y;
+    updateTransform();
+  });
+
+  // Pinch zoom
+  let pinchDist = 0;
+  document.getElementById('mapContainer').addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      pinchDist = Math.sqrt(dx * dx + dy * dy);
+    }
+  });
+
+  document.getElementById('mapContainer').addEventListener('touchmove', e => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const newDist = Math.sqrt(dx * dx + dy * dy);
+      const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+      const rect = mapInner.getBoundingClientRect();
+      const relX = centerX - rect.left;
+      const relY = centerY - rect.top;
+
+      const zoomFactor = newDist > pinchDist ? 1.05 : 0.95;
+      const prevScale = scale;
+      scale *= zoomFactor;
+      scale = Math.min(4, Math.max(0.5, scale));
+      pinchDist = newDist;
+
+      origin.x -= (relX / prevScale) * (scale - prevScale);
+      origin.y -= (relY / prevScale) * (scale - prevScale);
+
+      updateTransform();
+    }
+  }, { passive: false });
+
+  // Tooltip on hover
+  const tooltip = document.getElementById('tooltipBox');
+  const zones = document.querySelectorAll('.zone');
+
+  const descriptions = {
+    "Greater Wellington": "Greater Wellington",
+    "Wellington City": "Wellington City",
+  };
+
+  zones.forEach(zone => {
+    zone.addEventListener('mouseenter', () => {
+      zones.forEach(z => {
+        if (z !== zone) z.classList.add('dimmed');
+        else z.classList.remove('dimmed');
+      });
+
+      const label = zone.getAttribute('data-label');
+      tooltip.textContent = descriptions[label] || label;
+      tooltip.style.display = 'block';
+    });
+
+    zone.addEventListener('mousemove', e => {
+      requestAnimationFrame(() => {
+        const padding = 12;
+        const w = tooltip.offsetWidth;
+        const h = tooltip.offsetHeight;
+        let left = e.clientX + padding;
+        let top = e.clientY - h / 2;
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        if (left + w > viewportWidth) left = viewportWidth - w - padding;
+        if (top + h > viewportHeight) top = viewportHeight - h;
+        if (top < 0) top = 0;
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+      });
+    });
+
+    zone.addEventListener('mouseleave', () => {
+      zones.forEach(z => z.classList.remove('dimmed'));
+      tooltip.style.display = 'none';
+    });
+  });
+
+  updateTransform();
+</script>
+
+</body>
+</html>
