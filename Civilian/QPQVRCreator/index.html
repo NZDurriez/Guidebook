@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QP & QVR Generator</title>
+<style>
+html, body { overflow-y: scroll; scrollbar-width: none; margin:0; padding:0; }
+::-webkit-scrollbar { display:none; }
+body { scrollbar-gutter: stable; background: #1e1e1e; color:white; font-family:Arial, sans-serif; }
+.container { max-width:800px; margin:30px auto; padding:20px; background:#333; box-shadow:0 0 10px rgba(0,0,0,0.5); border-radius:10px; }
+.title { text-align:center; font-size:1.5em; font-weight:bold; margin-bottom:20px; }
+.toggle-buttons { display:flex; justify-content:center; margin-bottom:20px; }
+.toggle-buttons button { background:#007bff; color:white; border:none; cursor:pointer; padding:10px 15px; border-radius:5px; margin:0 5px; }
+.toggle-buttons button:hover { background:#0056b3; }
+.generator-section { display:block; }
+.form-group { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+label { width:40%; }
+input, select { width:55%; padding:8px; border:1px solid #aaa; background:#555; color:white; border-radius:5px; }
+button.generate { display:block; width:100%; background:#007bff; color:white; border:none; cursor:pointer; padding:10px; border-radius:5px; margin-top:10px; }
+button.generate:hover { background:#0056b3; }
+.toggle-instructions { background:#007bff; color:white; border:none; cursor:pointer; padding:8px 12px; border-radius:5px; margin:10px 0; font-size:0.9rem; width:100%; text-align:center; }
+.toggle-instructions:hover { background:#0056b3; }
+.instructions-container { display:none; background-color:#222; border:1px solid #f4d03f; border-radius:5px; padding:10px; margin-bottom:10px; color:#fff; }
+.instructions { margin:0; padding-left:20px; }
+.instructions li { margin-bottom:5px; }
+.output-container { margin-top:10px; }
+.output { padding:10px; background:#333; border: 1px solid #f4d03f; border-radius:5px; font-family:monospace; word-break:break-all; cursor:pointer; min-height:50px; user-select: all; }
+
+/* Dual-list grid */
+.dual-list-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: start;
+  margin-bottom: 10px;
+}
+.dual-list-container select, .dual-list-container input {
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  background:#555;
+  color:white;
+  border-radius:5px;
+  border:1px solid #aaa;
+  box-sizing: border-box;
+  margin-top:5px;
+}
+
+/* Center license buttons */
+.radio-buttons, .license-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* Buttons inside license sections */
+.license-buttons button, .radio-buttons button {
+  margin:0;
+  padding:5px 10px;
+  border-radius:5px;
+  border:none;
+  cursor:pointer;
+}
+.radio-buttons button { background:#FFD966; color:#000; }
+.license-buttons button { background:#dbdae3; color:#000; border: 1px solid #f4d03f; }
+.radio-buttons button.active, .license-buttons button.active {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Tooltip styles */
+.license-buttons button {
+  position: relative;
+}
+.license-buttons button[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  border: 1px solid #f4d03f;
+  padding: 3px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  z-index: 100;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* Main license button colors */
+#mainLicenseBtns button[data-value="1L"] { background-color: #007bff; color: white; }
+#mainLicenseBtns button[data-value="1R"] { background-color: #FFD700; color: black; }
+#mainLicenseBtns button[data-value="1F"] { background-color: #28a745; color: white; }
+
+/* Dice buttons */
+.dice-btn {
+  background:none;
+  border:none;
+  color:white;
+  font-size:1.1rem;
+  cursor:pointer;
+  margin-right:5px;
+  padding:0;
+}
+.dice-btn:hover { color:#FFD700; }
+
+.license-buttons button.disabled {
+  background: #555 !important;
+  color: #999 !important;
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+<h2 class="title">QP & QVR Generator</h2>
+
+<div class="toggle-buttons">
+  <button>Vehicle | QVR Generator</button>
+  <button>Character | QP Generator</button>
+</div>
+
+<!-- QVR Section -->
+<div id="qvrSection" class="generator-section">
+  <h3>QVR Creator</h3>
+  <div class="form-group">
+    <label>Vehicle Plate:</label>
+    <input type="text" id="plate" maxlength="6" placeholder="ABC123" />
+  </div>
+  <div class="form-group">
+    <label>Registered Owner:</label>
+    <input type="text" id="owner" placeholder="Eg. John Doe" />
+  </div>
+  <div class="form-group">
+    <label>Warrant of Fitness:</label>
+    <select id="woF"><option>Valid</option><option>Invalid</option></select>
+  </div>
+  <div class="form-group">
+    <label>Rego:</label>
+    <select id="rego"><option>Valid</option><option>Invalid</option></select>
+  </div>
+  <div class="form-group">
+    <label>Vehicle Make:</label>
+    <input type="text" id="make" placeholder="Eg. Nissan" />
+  </div>
+  <div class="form-group">
+    <label>Vehicle Model:</label>
+    <input type="text" id="model" placeholder="Eg. Skyline" />
+  </div>
+  <div class="form-group">
+    <label>Year:</label>
+    <input type="text" id="year" maxlength="4" placeholder="2018" />
+  </div>
+  <div class="form-group">
+    <label>Colour:</label>
+    <input type="text" id="color" placeholder="Eg. Red" />
+  </div>
+  <div class="form-group">
+    <label>Flags:</label>
+    <input type="text" id="flags" placeholder="Eg. Owner has active WTA" />
+  </div>
+  <button class="generate" id="generateQVR">Generate QVR</button>
+  <div class="output-container">
+    <p id="outputQVR" class="output"></p>
+  </div>
+  <button class="toggle-instructions" id="toggleInstructionsQVR">Show Instructions</button>
+  <div class="instructions-container" id="instructionsQVR">
+    <ol class="instructions">
+      <li>Hit T to type in chat,</li>
+      <li>Type /CIV to bring up the Civilian Menu</li>
+      <li>Paste the generated QVR into the vehicle menu,</li>
+      <li>Save and activate.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- QP Section -->
+<div id="qpSection" class="generator-section" style="display:none;">
+<h3>QP Generator</h3>
+<button class="generate" id="randomQP" style="margin-bottom:15px;">Randomize QP</button>
+
+<div class="form-group">
+  <label>First Name:</label>
+  <div style="display:flex; align-items:center; gap:5px; width:55%;">
+    <button class="dice-btn" id="diceFirstName">🎲</button>
+    <input type="text" id="firstName" placeholder="John" style="flex:1;" />
+  </div>
+</div>
+<div class="form-group">
+  <label>Last Name:</label>
+  <div style="display:flex; align-items:center; gap:5px; width:55%;">
+    <button class="dice-btn" id="diceLastName">🎲</button>
+    <input type="text" id="lastName" placeholder="Doe" style="flex:1;" />
+  </div>
+</div>
+<div class="form-group">
+  <label>Date of Birth:</label>
+  <div style="display:flex; align-items:center; gap:5px; width:55%;">
+    <button class="dice-btn" id="diceDOB">🎲</button>
+    <input type="text" id="age" placeholder="01 Jan 1994" style="flex:1;" />
+  </div>
+</div>
+
+<div class="form-group">
+  <label>Address:</label>
+  <input type="text" id="address" placeholder="845 Grove Street" />
+</div>
+<div class="form-group">
+  <label>Occupation:</label>
+  <input type="text" id="occupation" placeholder="Software Engineer" />
+</div>
+
+<!-- Main License -->
+<div class="form-group checkbox-group">
+  <label>License(s):</label>
+  <div class="radio-buttons" id="mainLicenseBtns">
+    <button type="button" data-value="1L">1L</button>
+    <button type="button" data-value="1R">1R</button>
+    <button type="button" data-value="1F">1F</button>
+  </div>
+  <input type="hidden" id="licenseValue" />
+</div>
+
+<!-- Other Licenses Buttons -->
+<div class="form-group checkbox-group">
+  <label>Other License(s):</label>
+  <div class="license-buttons" id="otherLicenseBtns">
+    <button type="button" data-value="2" data-tooltip="Medium rigid vehicle">2</button>
+    <button type="button" data-value="3" data-tooltip="Medium combination vehicle">3</button>
+    <button type="button" data-value="4" data-tooltip="Heavy rigid vehicle">4</button>
+    <button type="button" data-value="5" data-tooltip="Heavy combination vehicle">5</button>
+    <button type="button" data-value="6" data-tooltip="Motorcycle">6</button>
+  </div>
+  <input type="hidden" id="otherLicensesValue" />
+</div>
+
+<!-- Dual Lists for Flags -->
+<div class="dual-list-container">
+  <div>
+    <label>Flags:</label>
+    <select id="flagsList" multiple></select>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:5px; justify-content:center;">
+    <br><br><button type="button" id="addFlag">→</button>
+    <button type="button" id="removeFlag">←</button>
+  </div>
+  <div>
+    <label>Selected Flags:</label>
+    <select id="selectedFlags" multiple></select>
+    <input type="text" id="freeFlags" placeholder="e.g Warrant to Arrest: Aggravated Robbery" />
+  </div>
+</div>
+<br><br>
+<div class="dual-list-container">
+  <div>
+    <label>Staff Safety Flags:</label>
+    <select id="staffFlagsList" multiple></select>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:5px; justify-content:center;">
+    <br><br><button type="button" id="addStaffFlag">→</button>
+    <button type="button" id="removeStaffFlag">←</button>
+  </div>
+  <div>
+    <label>Selected Staff Safety Flags:</label>
+    <select id="selectedStaffFlags" multiple></select>
+    <input type="text" id="freeStaffFlags" placeholder="e.g Aggressive toward Police" />
+  </div>
+</div>
+
+<button class="generate" id="generateQP">Generate QP</button>
+<div class="output-container">
+  <p id="outputQP" class="output"></p>
+</div>
+<button class="toggle-instructions" id="toggleInstructionsQP">Show Instructions</button>
+<div class="instructions-container" id="instructionsQP">
+  <ol class="instructions">
+    <li>Hit T to type in chat,</li>
+    <li>Type /CIV to bring up the Civilian Menu</li>
+    <li>Paste the generated QP into the character menu,</li>
+    <li>Save and activate. <br><small><i>note: you'll need to activate a character each time you login as these are not persistent across logins</i></small></li>
+  </ol>
+</div>
+</div>
+
+<script>
+// Names
+const maleFirstNames = ["Liam","Noah","Oliver","Elijah","James","William","Benjamin","Lucas","Henry","Alexander","Mason","Michael","Ethan","Daniel","Jacob","Logan","Jackson","Levi","Sebastian","Mateo","Jack","Owen","Theodore","Aiden","Samuel","Wiremu","Tama","Manaia","Hemi","Rangi","Nikau","Tane","Rawiri","Hoani","Kauri","Ari","Anaru","Pita","Kahu","Matiu","Niko","Tai","Rewi","Hori","Rau","Wire","Tawhiri","Ihaia","Tipene","Taimana","Mako","Aroha","Tui","Whetu","Kahu","TeManu","Rongo","Tamaora","TeAriki","Koroki","Mikaere","Arona","Kereama","TeRangi","Hone","Pene","Tawera","Eru","Tuterangi","Tioriori","Kawhena","Hera","Kahurangi","Whiti","Turanga","Takuta","Pounamu","Rere","Maru","Rata","Ngaio","Makoha","Tamaroa","Tohu","Wirekura","Thomas","Charlie","George","Harrison","Finn","Cooper","Lachlan","Blake","Hunter","Isaac","Joshua","Callum","Connor","Jordan","Cameron","Tyler","Zachary","Dylan","Caleb","Elliot","Nathan","Ryan","Oscar","Archie","Patrick","Jasper","Miles","Spencer","Logan","Cole","Max","Austin","Dominic","Brayden","Shane","Corey","Mitchell","Aaron","Travis","Ewan","Flynn","Reid","Declan","Ashton","Hayden","Kane","Brandon","Marcus","Jayden","Troy","Scott","Riley","Samson","Leo","Eli","Christian","Damian","Xavier"];
+const lastNames = ["Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez","Hernandez","Lopez","Gonzalez","Wilson","Anderson","Thomas","Taylor","Moore","Jackson","Martin","Lee","Perez","Thompson","White","Harris","Andrews","Clark","King","Scott","Edwards","Walker","Murray","McKenzie","McDonald","Graham","Stewart","Campbell","Fraser","Reid","Alexander","Ross","Douglas","Marshall","Kerr","McLean","Fletcher","Boyd","Munro","Sinclair","Wallace","Forbes","Henderson","Allan","MacDonald","Cameron","Ngata","Rangihau","TeRangi","Waititi","Tamihana","Wikaira","Henare","Tipene","Waaka","TeHeuheu","Katene","Tau","Wharekawa","Ngawhika","Ranginui","Reihana","Parata","Turei","TeAho","Kawana","Perenara","Ropiha","Haami","Whaitiri","TeKanawa","Whiu","TePaea","Moana","Ngawaka","Whanau","Wanoa","Hikuroa","Hotere","TeWhiti","Tirikatene","Taiaroa","TePuni","Hekenui","Pomare","Apirana","Aranui","Wharekura","Paora","TeAo","Ngawhare","Tipiwai","Pikiao","Hona","Waiariki","Ngakuru"];
+
+// NZ Flags
+const nzFlags = [
+  "Warrant to Arrest: Failure to appear in court",
+  "Warrant to Arrest: Breach of bail conditions",
+  "Warrant to Arrest: Breach of domestic violence order",
+  "Warrant to Arrest: Theft",
+  "Warrant to Arrest: Assault",
+  "Warrant to Arrest: Outstanding fines",
+  "Warrant to Arrest: Burglary",
+  "Warrant to Arrest: Aggravated robbery",
+  "Warrant to Arrest: Shoplifting",
+  "Warrant to Arrest: Unlawful possession of a firearm",
+  "Warrant to Arrest: Supplying illegal drugs",
+  "Warrant to Arrest: Breach of protection order",
+  "Warrant to Arrest: Wilful damage",
+  "Warrant to Arrest: Trespass",
+  "Warrant to Arrest: Threats to kill or injure",
+  "Warrant to Arrest: Hit and run",
+  "Warrant to Arrest: Breach of community work sentence",
+  "Warrant to Arrest: Breach of parole conditions"
+];
+
+// Other Safety Flags
+const safetyFlagsList = [
+  "Assaults Police",
+  "Uses/Carries Firearms",
+  "Uses/Carries Knives",
+  "Drug User",
+  "Staff Safety Person of Interest",
+  "Gang Affiliations",
+  "Threatening Behaviour",
+  "History of Violence",
+  "Domestic Violence Risk",
+  "Known Burglary Offender",
+  "Armed Robbery History",
+  "Resists Arrest",
+  "Dangerous when Confronted",
+  "Violent Towards Police",
+  "Known associate of Bonqueque"
+];
+
+// --- Populate Flags Dual List ---
+const flagsListEl = document.getElementById('flagsList');
+nzFlags.forEach(f => { const o=document.createElement('option'); o.value=f;o.text=f; flagsListEl.appendChild(o); });
+
+const staffFlagsListEl = document.getElementById('staffFlagsList');
+safetyFlagsList.forEach(f => { const o=document.createElement('option'); o.value=f;o.text=f; staffFlagsListEl.appendChild(o); });
+
+// Add/remove dual-list buttons
+document.getElementById('addFlag').addEventListener('click', ()=>{
+  Array.from(flagsListEl.selectedOptions).forEach(o=>{
+    document.getElementById('selectedFlags').appendChild(o);
+  });
+});
+document.getElementById('removeFlag').addEventListener('click', ()=>{
+  Array.from(document.getElementById('selectedFlags').selectedOptions).forEach(o=>{
+    flagsListEl.appendChild(o);
+  });
+});
+document.getElementById('addStaffFlag').addEventListener('click', ()=>{
+  Array.from(staffFlagsListEl.selectedOptions).forEach(o=>{
+    document.getElementById('selectedStaffFlags').appendChild(o);
+  });
+});
+document.getElementById('removeStaffFlag').addEventListener('click', ()=>{
+  Array.from(document.getElementById('selectedStaffFlags').selectedOptions).forEach(o=>{
+    staffFlagsListEl.appendChild(o);
+  });
+});
+
+// Toggle generators
+const [qvrBtn, qpBtn] = document.querySelectorAll('.toggle-buttons button');
+qvrBtn.addEventListener('click', ()=>{
+  document.getElementById('qvrSection').style.display='block';
+  document.getElementById('qpSection').style.display='none';
+});
+qpBtn.addEventListener('click', ()=>{
+  document.getElementById('qvrSection').style.display='none';
+  document.getElementById('qpSection').style.display='block';
+});
+
+// Toggle instructions
+document.getElementById('toggleInstructionsQVR').addEventListener('click', ()=>{
+  const c=document.getElementById('instructionsQVR');
+  c.style.display=c.style.display==='block'?'none':'block';
+});
+document.getElementById('toggleInstructionsQP').addEventListener('click', ()=>{
+  const c=document.getElementById('instructionsQP');
+  c.style.display=c.style.display==='block'?'none':'block';
+});
+
+// --- Dice Randomizers ---
+function randomItem(arr){return arr[Math.floor(Math.random()*arr.length)];}
+document.getElementById('diceFirstName').addEventListener('click', ()=>{document.getElementById('firstName').value=randomItem(maleFirstNames);});
+document.getElementById('diceLastName').addEventListener('click', ()=>{document.getElementById('lastName').value=randomItem(lastNames);});
+document.getElementById('diceDOB').addEventListener('click', ()=>{
+  const year = Math.floor(Math.random()*(2005-1973+1))+1973; // age 18-50
+  const month = Math.floor(Math.random()*12)+1;
+  const day = Math.floor(Math.random()*28)+1;
+  document.getElementById('age').value=(`${day}`.padStart(2,'0')+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month-1]+' '+year);
+});
+
+// Randomize QP button
+document.getElementById('randomQP').addEventListener('click', ()=>{
+  document.getElementById('firstName').value=randomItem(maleFirstNames);
+  document.getElementById('lastName').value=randomItem(lastNames);
+  const year = Math.floor(Math.random()*(2005-1973+1))+1973; 
+  const month = Math.floor(Math.random()*12)+1;
+  const day = Math.floor(Math.random()*28)+1;
+  document.getElementById('age').value=(`${day}`.padStart(2,'0')+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month-1]+' '+year);
+});
+
+// --- Generate QP Output ---
+document.getElementById('generateQP').addEventListener('click', ()=>{
+  const first=document.getElementById('firstName').value;
+  const last=document.getElementById('lastName').value;
+  const dob=document.getElementById('age').value;
+  const address=document.getElementById('address').value;
+  const occupation=document.getElementById('occupation').value;
+  const mainLic = Array.from(document.querySelectorAll('#mainLicenseBtns button.active')).map(b=>b.dataset.value);
+  const otherLic = Array.from(document.querySelectorAll('#otherLicenseBtns button.active')).map(b=>b.dataset.value);
+  const licenses = mainLic.concat(otherLic);
+  const licensesText = licenses.length?licenses.join(', '):'Nil';
+
+  // Flags
+  let selectedFlags = Array.from(document.getElementById('selectedFlags').options).map(o=>o.value);
+  const freeFlags=document.getElementById('freeFlags').value.trim();
+  if(freeFlags) selectedFlags.push(freeFlags);
+
+  let flagsText = "Nil";
+  if(selectedFlags.length){
+    // Separate warrants from other flags
+    const warrants = selectedFlags.filter(f => f.startsWith("Warrant to Arrest:"));
+    const others = selectedFlags.filter(f => !f.startsWith("Warrant to Arrest:"));
+
+    let parts = [];
+    if(warrants.length === 1){
+      parts.push(warrants[0]); // keep as-is
+    } else if(warrants.length > 1){
+      // pluralise + strip duplicate prefix
+      let stripped = warrants.map(f => f.replace("Warrant to Arrest: ",""));
+      parts.push("Warrants to Arrest: " + stripped.join(", "));
+    }
+    if(others.length){
+      parts.push(others.join(", "));
+    }
+
+    flagsText = parts.join(", ");
+    flagsText = "~r~" + flagsText;
+  } else {
+    flagsText = "~b~Nil";
+  }
+
+  // Staff Safety Flags
+  let selectedStaffFlags = Array.from(document.getElementById('selectedStaffFlags').options).map(o=>o.value);
+  const freeStaffFlags=document.getElementById('freeStaffFlags').value.trim();
+  if(freeStaffFlags) selectedStaffFlags.push(freeStaffFlags);
+
+  let staffFlagsText="~b~Nil";
+  if(selectedStaffFlags.length){
+    staffFlagsText="~r~"+selectedStaffFlags.join(", ");
+  }
+
+  const output=
+    `~y~Name:~b~${first} ${last} `+
+    `~y~DOB:~b~${dob} `+
+    `~y~Address:~b~${address} `+
+    `~y~Occupation:~b~${occupation} `+
+    `~y~License(s):~b~${licensesText} `+
+    `~y~Flags:${flagsText} `+
+    `~y~Staff Safety Flags:${staffFlagsText}`;
+
+  document.getElementById('outputQP').textContent=output;
+});
+
+
+// --- Generate QVR Output ---
+document.getElementById('generateQVR').addEventListener('click', ()=>{
+  const plate = document.getElementById('plate').value;
+  const owner = document.getElementById('owner').value;
+  const woF = document.getElementById('woF').value;
+  const rego = document.getElementById('rego').value;
+  const make = document.getElementById('make').value;
+  const model = document.getElementById('model').value;
+  const year = document.getElementById('year').value;
+  const color = document.getElementById('color').value;
+  const flagsRaw = document.getElementById('flags').value.trim();
+
+  const flags = (flagsRaw && flagsRaw.toLowerCase()!=='none' && flagsRaw.toLowerCase()!=='nil') 
+                ? '~r~'+flagsRaw : '~b~'+(flagsRaw || 'None');
+
+  const outputQVR = 
+    `~y~Plate:~b~${plate} ` +
+    `~y~Owner:~b~${owner} ` +
+    `~y~WoF:~b~${woF} ` +
+    `~y~Rego:~b~${rego} ` +
+    `~y~Make:~b~${make} ` +
+    `~y~Model:~b~${model} ` +
+    `~y~Year:~b~${year} ` +
+    `~y~Color:~b~${color} ` +
+    `~y~Flags:${flags}`;
+
+  document.getElementById('outputQVR').textContent = outputQVR;
+});
+
+
+// License buttons toggle with dependency rules
+function updateOtherLicensesState() {
+  const has1F = document.querySelector('#mainLicenseBtns button[data-value="1F"]').classList.contains('active');
+  document.querySelectorAll('#otherLicenseBtns button').forEach(btn => {
+    const val = btn.dataset.value;
+    if (["2","3","4","5"].includes(val)) {
+      if (!has1F) {
+        btn.classList.add('disabled');
+        btn.classList.remove('active');
+      } else {
+        btn.classList.remove('disabled');
+      }
+    }
+    // "6" is always allowed
+  });
+}
+
+document.querySelectorAll('#mainLicenseBtns button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // make main license mutually exclusive
+    document.querySelectorAll('#mainLicenseBtns button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateOtherLicensesState();
+  });
+});
+
+document.querySelectorAll('#otherLicenseBtns button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('disabled')) return; // ignore clicks if disabled
+    btn.classList.toggle('active');
+  });
+});
+
+// run once at start
+updateOtherLicensesState();
+
+
+</script>
+</div>
+</body>
+</html>
+
