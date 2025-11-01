@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Callsign Guide</title>
+  <style>
+    /* ---------- Global Styles ---------- */
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      /* Hide scrollbars in Webkit browsers */
+      overflow-y: scroll;
+    }
+    /* Hide scrollbar in WebKit */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar in Firefox */
+    html {
+      scrollbar-width: none;
+    }
+    
+    /* ---------- Container ---------- */
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      border-radius: 10px;
+    }
+    
+    .title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    
+    p.instruction {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    /* ---------- Form Groups ---------- */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .form-group select,
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      background: #555;
+      color: white;
+    }
+    
+    /* ---------- Table Styling ---------- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #555;
+      font-family: monospace;
+      word-break: break-word;
+    }
+    
+    th {
+      background: #444;
+      font-weight: bold;
+    }
+    
+    /* ---------- Alternating Row Colors ---------- */
+    tbody tr:nth-child(odd) {
+      background: #555;
+    }
+    
+    tbody tr:nth-child(even) {
+      background: #444;
+    }
+    
+    /* ---------- Back to Top Button ---------- */
+    #backToTop {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 20px auto 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Title and Instruction -->
+    <h2 class="title">Callsign Guide</h2>
+    <p class="instruction">
+      Select a unit using the dropdown or type in the search box to filter by callsign information.
+      When a search term is entered, it will search across all categories.
+    </p>
+    
+    <!-- Category Dropdown -->
+    <div class="form-group">
+      <label for="categorySelect">Select Unit Category:</label>
+      <select id="categorySelect">
+        <option value="all">All</option>
+        <option value="Public Safety Team (PST/GD)">Public Safety Team (PST/GD)</option>
+        <option value="Road Policing (RP)">Road Policing (RP)</option>
+        <option value="Serious Crash Units (SCU)">Serious Crash Units (SCU)</option>
+        <option value="Commercial Vehicle Safety Team (CVST)">Commercial Vehicle Safety Team (CVST)</option>
+        <option value="Dog Squad (Delta)">Dog Squad (Delta)</option>
+        <option value="Criminal Investigation Branch (CIB)">Criminal Investigation Branch (CIB)</option>
+        <option value="Scene of Crime Officer (SOCO)">Scene of Crime Officer (SOCO)</option>
+        <option value="Photography">Photography</option>
+        <option value="Air Support Unit (ASU/Eagle)">Air Support Unit (ASU/Eagle)</option>
+        <option value="Airport Policing Unit">Airport Policing Unit</option>
+        <option value="Policing Support Unit (PSU)">Policing Support Unit (PSU)</option>
+        <option value="Maritime Police">Maritime Police</option>
+        <option value="Fisheries Officer">Fisheries Officer</option>
+        <option value="Search & Rescue">Search & Rescue</option>
+        <option value="Tactical Squads">Tactical Squads</option>
+        <option value="Custody Unit (DCU)">Custody Unit (DCU)</option>
+      </select>
+    </div>
+    
+    <!-- Global Search Field -->
+    <div class="form-group">
+      <label for="searchInput">Search by Unit or Details:</label>
+      <input type="text" id="searchInput" placeholder="Enter search term..." />
+    </div>
+    
+    <!-- Callsign Guide Table -->
+    <table id="codesTable">
+      <thead>
+        <tr>
+          <th>Unit</th>
+          <th>Details / Callsign Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows generated via JavaScript -->
+      </tbody>
+    </table>
+    
+    <!-- Back to Top Button -->
+    <button id="backToTop">Back to Top</button>
+  </div>
+  
+  <script>
+    /* ---------- Data for Callsign Guide ---------- */
+    const callsignData = [
+      {
+        category: "Public Safety Team (PST/GD)",
+        details: "Primary response units to calls for service from members of the public. Prevention of crime through public patrols/engagement. Single crewed units (Q-Cars, Callsign: (Area)Q(Number)) and double crewed units (I-Cars, Callsign: (Area)I(Number)). Areas: KP* (Paraparaumu, Waikanae) | PO* (Porirua) | WN* (Wellington City) | JV* (Johnsonville) | HV* (Hutt Valley). Should stick to their designated area unless workload requires out-of-area jobs."
+      },
+      {
+        category: "Road Policing (RP)",
+        details: "Attend traffic-related events (e.g., 1V, 1I, 1U, 6I), enforce along key road networks using checkpoints (3Rs), and assist PST with high-priority jobs when low staffing/no units are available. Areas: WNT* (Wellington City & Greater Wellington) | WHT* (Hutt Valley)."
+      },
+      {
+        category: "Serious Crash Units (SCU)",
+        details: "Investigate vehicle collisions (1V's) where injury has occurred or the patient is in Status 1 or Status 0 (Deceased). SCU do not primarily respond but are available for investigation. Callsign: WLSCU(Number) – District wide."
+      },
+      {
+        category: "Commercial Vehicle Safety Team (CVST)",
+        details: "Focused on commercial vehicles with similar tasks to road policing. Callsign: R4V(Number) – District wide."
+      },
+      {
+        category: "Dog Squad (Delta)",
+        details: "Tracks offenders and supports PST on high-risk jobs. Callsign: WLD(Number) – District wide. Often referred to as 'Delta(Number)' on radio."
+      },
+      {
+        category: "Criminal Investigation Branch (CIB)",
+        details: "Handles investigations of complex crimes and scene examinations. Callsign: WLC(Number) – District wide."
+      },
+      {
+        category: "Scene of Crime Officer (SOCO)",
+        details: "Focuses on forensic aspects (fingerprinting/DNA) at a scene. Typically not a response unit; follows up after the job or while a scene guard is in place. Callsign: WNK(Number) – District wide."
+      },
+      {
+        category: "Photography",
+        details: "Provides additional support to scene examinations. Typically follows up after the job or while a scene guard is in place. Callsign: R4F(Number) – District wide."
+      },
+      {
+        category: "Air Support Unit (ASU/Eagle)",
+        details: "Tracks and locates offenders, vehicles, or persons; monitors high-risk jobs from the air. Callsign: EAGLE(1,2 or 3); often referred to as 'EAGLE'. Only one unit airborne at once with ideally 1 Pilot & 1 Tactical Flight Officer."
+      },
+      {
+        category: "Airport Policing Unit",
+        details: "Operates solely at Wellington International Airport, providing response and taking forward command during emergencies. Callsign: IFU(Number) – Wellington International Airport Only."
+      },
+      {
+        category: "Policing Support Unit (PSU)",
+        details: "Provides support at high-risk jobs and large-scale events (e.g., disorders). Requires a Section SGT+ and a team of 4 officers (at least one SGT+). Callsign: WLP(Number) – District wide."
+      },
+      {
+        category: "Maritime Police",
+        details: "Handles water rescues/emergencies (e.g., 1W) and patrols on water. Callsign: VFL(Number) – District wide. Only one type of each vessel in service at a time."
+      },
+      {
+        category: "Fisheries Officer",
+        details: "Enforces the Fisheries Act. Callsign: WG(Number) – District wide. May be on Police radio if available."
+      },
+      {
+        category: "Search & Rescue",
+        details: "Attends land (1L), missing persons (2M), and water rescues (1W); takes forward command if necessary. Callsign: WLSAR(Number) – District wide."
+      },
+      {
+        category: "Tactical Squads",
+        details: "Attend high-risk/armed offender jobs. Includes: Armed Offender Squad (AOS): Deployed via approval; Callsign: WNAOS(Number). Offender Prevention Teams (OPT): Immediate response; Callsigns: WLYD* or WLYX. Armed Response Team (ART): Constance staffed unit (armed with Glock/M4 Rifle when justified, in marked ART vehicle with at least 3 officers in normal PST uniform); Callsign: WNART(Number)."
+      },
+      {
+        category: "Custody Unit (DCU)",
+        details: "Processes and cares for K9's; collects K9's from scenes when many are present. Based in major police stations (Paraparaumu, Porirua, Wellington Central), the district unit is in Wellington. Callsign: WLW(Number) – District wide; a WLWS (Sgt+) may wear blue uniform; currently responsible for ‘jailing’ K9's."
+      }
+    ];
+    
+    /* ---------- DOM Element References ---------- */
+    const categorySelect = document.getElementById("categorySelect");
+    const searchInput = document.getElementById("searchInput");
+    const tableBody = document.querySelector("#codesTable tbody");
+    
+    /* ---------- Helper Functions ---------- */
+    // Add a new row given an item and its index.
+    function addRow(item, index) {
+      const row = document.createElement("tr");
+      // Create the Unit/Category cell.
+      const unitCell = document.createElement("td");
+      unitCell.textContent = item.category;
+      row.appendChild(unitCell);
+      // Create the Details cell.
+      const detailsCell = document.createElement("td");
+      detailsCell.textContent = item.details;
+      row.appendChild(detailsCell);
+      tableBody.appendChild(row);
+    }
+    
+    // Update table based on dropdown and search.
+    // When search field is non-empty, search across all callsignData.
+    function updateTable() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      tableBody.innerHTML = "";
+      
+      let dataToDisplay = [];
+      if (searchTerm !== "") {
+        // Ignore dropdown if a search term is provided.
+        dataToDisplay = callsignData.slice();
+      } else {
+        const selectedCategory = categorySelect.value;
+        if (selectedCategory === "all") {
+          dataToDisplay = callsignData.slice();
+        } else {
+          dataToDisplay = callsignData.filter(item => item.category === selectedCategory);
+        }
+      }
+      
+      if (searchTerm !== "") {
+        dataToDisplay = dataToDisplay.filter(item => {
+          return (item.category + " " + item.details).toLowerCase().includes(searchTerm);
+        });
+      }
+      
+      dataToDisplay.forEach((item, index) => addRow(item, index));
+    }
+    
+    /* ---------- Event Listeners ---------- */
+    categorySelect.addEventListener("change", () => {
+      // Clear search input when a new category is selected.
+      searchInput.value = "";
+      updateTable();
+    });
+    
+    searchInput.addEventListener("keyup", updateTable);
+    
+    // Initial table population.
+    updateTable();
+    
+    // Back to Top button functionality.
+    document.getElementById("backToTop").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
