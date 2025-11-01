@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Commands</title>
+  <style>
+    /* ---------- Global Styles ---------- */
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      /* Hide vertical scrollbar in WebKit and Firefox */
+      overflow-y: scroll;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    html {
+      scrollbar-width: none;
+    }
+    
+    /* ---------- Container ---------- */
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #333;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+    }
+    
+    h2.title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    
+    p.instruction {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    /* ---------- Form Groups ---------- */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .form-group select,
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      background: #555;
+      color: white;
+    }
+    
+    /* ---------- Table Styling ---------- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #555;
+      font-family: monospace;
+      word-break: break-word;
+    }
+    
+    th {
+      background: #444;
+      font-weight: bold;
+    }
+    
+    /* Alternating rows using nth-child selectors */
+    tbody tr:nth-child(odd) {
+      background: #555;
+    }
+    tbody tr:nth-child(even) {
+      background: #444;
+    }
+    
+    /* ---------- Back to Top Button ---------- */
+    #backToTop {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 20px auto 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">Basic Commands</h2>
+    <p class="instruction">
+      Below is a list of commands for Civilians to use in their RP.
+      These commands can be entered through chat—press <strong>T</strong> then type the command you want.
+    </p>
+    
+    <!-- Category Dropdown -->
+    <div class="form-group">
+      <label for="categorySelect">Select Category:</label>
+      <select id="categorySelect">
+        <option value="all">All</option>
+        <option value="Reporting Players">Reporting Players</option>
+        <option value="Character Appearance/Status">Character Appearance/Status</option>
+        <option value="Creating Calls / Replying to Police">Creating Calls / Replying to Police</option>
+        <option value="Priority Status">Priority Status</option>
+        <option value="Actions">Actions</option>
+      </select>
+    </div>
+    
+    <!-- Global Search Field -->
+    <div class="form-group">
+      <label for="searchInput">Search by Command or Description:</label>
+      <input type="text" id="searchInput" placeholder="Enter search term..." />
+    </div>
+    
+    <!-- Commands Table -->
+    <table id="commandsTable">
+      <thead>
+        <tr>
+          <th>Command</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows generated dynamically -->
+      </tbody>
+    </table>
+    
+    <!-- Back to Top Button -->
+    <button id="backToTop">Back to Top</button>
+  </div>
+  
+  <script>
+    /* ---------- Commands Data ---------- */
+    const commandsData = {
+      "Reporting Players": [
+        { command: "/report", description: "Requires an ID and reason, sends a report to staff" }
+      ],
+      "Character Appearance/Status": [
+        { command: "/civ", description: "Access your Civilian Character and Vehicle Information" },
+        { command: "/offduty", description: "Go off duty (Active as Civilian)" },
+        { command: "/onduty", description: "Go on duty (Active as Emergency Services)" }
+      ],
+      "Creating Calls / Replying to Police": [
+        { command: "/111", description: "Create a 111 (Urgent) call/scene for any agency" },
+        { command: "/105", description: "Create a 105 (Non-Urgent) call/scene for Police" },
+        { command: "/comms", description: "Reply to QP/QVR information" },
+		{ command: "/do", description: "Actions that you 'do' which are visible to everyone" }
+      ],
+      "Priority Status": [
+        { command: "/inp", description: "Start/Claim Priority Status" },
+        { command: "/cooldown", description: "Stop Priority Status" },
+        { command: "PGUP/PAGE UP", description: "Press these keys to see your ID" }
+      ],
+      "Actions": [
+        { command: "F2", description: "Open Menu" },
+        { command: "/menu", description: "Alternative way to open the F2 menu" },
+        { command: "/services", description: "Displays number of active Police, Ambulance, Fire, Towing, and Community Patrol units in chat" },
+        { command: "/me", description: "Actions or replies at close range (visible only to nearby players)" },
+        { command: "/do", description: "Actions that you 'do' which are visible to everyone" },
+        { command: "/ooc", description: "Sends an Out Of Character (OOC) message in chat" },
+        { command: "/ad", description: "Sends an ad message in chat (or generate ads through F2 Civ Options)" },
+        { command: "/hu", description: "Hands up" },
+        { command: "/huk", description: "Hands up, kneeling on the ground" },
+        { command: "/cr", description: "Toggle Crouch Status" },
+        { command: "/shuff", description: "Move from passenger seat to driver’s seat in a vehicle" },
+        { command: "/fix", description: "Fix the vehicle you are driving (must be at a complete stop)" },
+        { command: "/eng", description: "Toggle your vehicle engine on/off" },
+        { command: "/hood", description: "Open/close the hood of the nearest vehicle or your vehicle" },
+        { command: "/trunk", description: "Open/close the trunk (boot) of the nearest vehicle or your vehicle" },
+        { command: "/door", description: "Open/close a door (requires door ID, e.g., 1, 2) for the nearest vehicle or your vehicle" },
+        { command: "/aed", description: "Grab an AED from your vehicle (pop-up instructions will appear)" },
+        { command: "/anchor", description: "Drop/raise the anchor on a boat (freezes the boat)" },
+        { command: "/vs", description: "Prevent your car from being wiped by the automatic wipes (stay in your car during the wipe)" },
+        { command: "/dv", description: "Delete Vehicle" },
+        { command: "/dp", description: "Delete the closest AI Ped" },
+        { command: "/fdo", description: "Delete the closest Object" },
+        { command: "/alcohol", description: "Civilian Observation – Emits an alcohol smell nearby" },
+        { command: "/weed", description: "Civilian Observation – Emits a weed smell nearby" },
+        { command: "/green", description: "Civilian Observation – Shows the vehicle has a green sticker" },
+        { command: "/pink", description: "Civilian Observation – Shows the vehicle has a pink sticker" },
+        { command: "/lplate", description: "Civilian Observation – Shows the vehicle has a Learner Plate attached" },
+        { command: "/houses", description: "Displays available houses for robbery (via house robbery script)" },
+        { command: "/startfire", description: "Opens a menu to generate a fire with various types" },
+        { command: "/crosshair", description: "Enables/disables your crosshair" },
+        { command: "/fixfocus", description: "Fixes mouse focus/stuck issues" },
+        { command: "/hud", description: "Toggles all HUD elements off (or enables Rockstar Editor mode without the editor)" },
+        { command: "/vol", description: "Sets the volume for voice chat/radio" },
+        { command: "/streamermode", description: "Disables player music/videos from playing on your client" }
+      ]
+    };
+
+    /* ---------- DOM Element References ---------- */
+    const categorySelect = document.getElementById("categorySelect");
+    const searchInput = document.getElementById("searchInput");
+    const tableBody = document.querySelector("#commandsTable tbody");
+
+    /* ---------- Helper Functions ---------- */
+    // Create and append a table row.
+    function addRow(item, index) {
+      const row = document.createElement("tr");
+      const commandCell = document.createElement("td");
+      commandCell.textContent = item.command;
+      row.appendChild(commandCell);
+      const descCell = document.createElement("td");
+      descCell.textContent = item.description;
+      row.appendChild(descCell);
+      tableBody.appendChild(row);
+    }
+
+    // Update table based on dropdown selection and/or search term.
+    function updateTable() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      tableBody.innerHTML = "";
+      let dataToDisplay = [];
+
+      if (searchTerm !== "") {
+        // If a search term is present, merge all command data from all categories.
+        for (let category in commandsData) {
+          dataToDisplay = dataToDisplay.concat(commandsData[category]);
+        }
+      } else {
+        // Otherwise, use the dropdown selection.
+        const selectedCategory = categorySelect.value;
+        if (selectedCategory === "all") {
+          for (let category in commandsData) {
+            dataToDisplay = dataToDisplay.concat(commandsData[category]);
+          }
+        } else {
+          dataToDisplay = commandsData[selectedCategory] || [];
+        }
+      }
+
+      // If a search term exists, filter the data.
+      if (searchTerm !== "") {
+        dataToDisplay = dataToDisplay.filter(item => {
+          return (item.command + " " + item.description).toLowerCase().includes(searchTerm);
+        });
+      }
+
+      dataToDisplay.forEach((item, index) => addRow(item, index));
+    }
+
+    /* ---------- Event Listeners ---------- */
+    categorySelect.addEventListener("change", () => {
+      // Clear search field when dropdown selection changes.
+      searchInput.value = "";
+      updateTable();
+    });
+    searchInput.addEventListener("keyup", updateTable);
+
+    // Initial population.
+    updateTable();
+
+    // Back to Top Button functionality.
+    document.getElementById("backToTop").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
