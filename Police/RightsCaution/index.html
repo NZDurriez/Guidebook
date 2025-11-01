@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rights Caution</title>
+  <style>
+    /* Base & Notebook Background */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #2c2c2c;
+      font-family: sans-serif;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0;
+    }
+    /* Notebook paper effect */
+    .notebook {
+      background: white;
+      /* horizontal lines every 32px, line color light blue */
+      background-image:
+        repeating-linear-gradient(
+          transparent 0px, transparent 31px,
+          #cfe 32px
+        ),
+        /* red margin line at 48px */
+        linear-gradient(to right, #f55 48px, transparent 0);
+      background-size: 100% 32px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      padding: 24px 24px 48px 60px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    h1 {
+      margin-top: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    /* selection controls */
+    .controls {
+      margin-bottom: 1em;
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+    label {
+      font-weight: bold;
+    }
+    select {
+      padding: 6px 8px;
+      font-size: 1em;
+    }
+    /* caution sections */
+    .caution {
+      display: none;
+    }
+    .caution.active {
+      display: block;
+    }
+    .caution h2 {
+      margin-top: 0.5em;
+      font-size: 1.3em;
+      text-decoration: underline;
+    }
+    ul {
+      margin: 0.5em 0 1em 0;
+      padding-left: 1em;
+    }
+    li {
+      margin-bottom: 0.5em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="notebook">
+      <h1>Rights Caution</h1>
+      <div class="controls">
+        <label for="typeSelect">Caution Type:</label>
+        <select id="typeSelect">
+          <option value="adult">Adult Caution</option>
+          <option value="youth">Youths Caution</option>
+        </select>
+      </div>
+
+      <!-- Youths Caution -->
+      <div id="youth" class="caution">
+        <h2>Youths Caution</h2>
+        <p><strong>Ensure all advice is provided in a language and manner the child/young person can understand.</strong></p>
+        <p>Provide the following advice if there are reasonable grounds to suspect a child/young person has committed an offence, or before asking any question to obtain an admission.</p>
+        <h3>In All Cases</h3>
+        <ul>
+          <li>I am speaking to you about <em>(give reason)</em><br>OR<br>you have been arrested/detained for <em>(give reason)</em>.</li>
+          <li>You may be arrested if you refuse to give your name and address.</li>
+          <li>You are not obliged to accompany me; if you consent, you can withdraw that consent at any time.</li>
+        </ul>
+        <h3>Questioning: In All Cases</h3>
+        <p>After each statement, ask the young person to explain in their own words what their rights are:</p>
+        <ul>
+          <li>You have the right to remain silent.</li>
+          <li>You do not have to make any statement or answer any questions.</li>
+          <li>If you agree to make a statement or answer questions, you can change your mind and stop at any time.</li>
+          <li>Anything you say will be recorded and may be given in evidence in court.</li>
+          <li>You have the right to speak with a lawyer and/or any nominated person without delay and in private before deciding whether to answer any questions.</li>
+          <li>You have the right to have your lawyer or nominated person with you while you answer questions.</li>
+          <li>Police have a list of lawyers you may speak to for free.</li>
+        </ul>
+        <p><em>Note: Any nominated person also needs to be advised of these rights.</em></p>
+      </div>
+
+      <!-- Adult Caution -->
+      <div id="adult" class="caution active">
+        <h2>Adult Rights Caution</h2>
+        <p>Provide to anyone arrested/detained or before questioning where there is sufficient evidence to charge:</p>
+        <ul>
+          <li>You are being arrested/detained for <em>(give reason)</em><br>OR<br>I am speaking to you about <em>(give reason)</em>.</li>
+          <li>You have the right to remain silent.</li>
+          <li>You do not have to make any statement.</li>
+          <li>Anything you say will be recorded and given in evidence in court.</li>
+          <li>You have the right to speak with a lawyer without delay and in private before answering any questions.</li>
+          <li>Police have a list of lawyers you may speak to for free.</li>
+        </ul>
+        <p><strong>Do you understand your rights?</strong></p>
+        <p>If the suspect says no, repeat once more. If still no answer, repeat up to 3 times—by then they clearly understand and may be exercising their right to remain silent.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const select = document.getElementById('typeSelect');
+    const youth  = document.getElementById('youth');
+    const adult  = document.getElementById('adult');
+    select.addEventListener('change', () => {
+      youth.classList.remove('active');
+      adult.classList.remove('active');
+      if (select.value === 'youth') youth.classList.add('active');
+      if (select.value === 'adult') adult.classList.add('active');
+    });
+  </script>
+</body>
+</html>
