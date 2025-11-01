@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Character Creation</title>
+  <style>
+    /* ---------- Global Styles ---------- */
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      /* Hide scrollbars in Webkit-based browsers */
+      overflow-y: scroll;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    html {
+      scrollbar-width: none;
+    }
+    
+    /* ---------- Container ---------- */
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      border-radius: 10px;
+    }
+    
+    h1.title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    
+    h2.step-title {
+      font-size: 1.5em;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #555;
+      padding-bottom: 5px;
+    }
+    
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    
+    ol.substeps {
+      margin: 0 0 15px 20px;
+      padding: 0;
+      list-style-type: decimal;
+    }
+    
+    ol.substeps li {
+      margin-bottom: 5px;
+    }
+    
+    code {
+      background: #555;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: monospace;
+      color: #fff;
+    }
+    
+    /* ---------- Back to Top Button ---------- */
+    #backToTop {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 20px auto 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Character Creation</h1>
+    
+    <h2 class="step-title">Step 1: Open Your vMenu</h2>
+    <ol class="substeps">
+      <li>Press <strong>F1</strong> to open your VMenu.</li>
+      <li>Navigate to <em>Player Related Options</em>.</li>
+      <li>Select <em>MP Ped Customization</em> and choose either <strong>Create Male Character</strong> or <strong>Create Female Character</strong>.</li>
+      <li>Save your character when you’re done. You may also choose to set it as the default so that every time you respawn or load in, your saved appearance automatically loads.</li>
+    <p>
+      Ensure your custom character is appropriate and sensible. Remember: <strong>Any form of nudity is prohibited.</strong>
+    </p>
+	</ol>
+    
+    <h2 class="step-title">Step 2: Create Civilian Characters & Vehicles</h2>
+    <ol class="substeps">
+      <li>Press <strong>T</strong> on your keyboard to open the chat.</li>
+      <li>Type <code>/civ</code> to open the Civilian Menu.</li>
+      <li>When selecting <em>Civilian Characters</em>, enter a First Name and Last Name (ensure these are appropriate and not offensive).</li> 
+      <li>You will be prompted to enter your <strong>QP (Query Person)</strong>.</li>
+      <li>Generate your QP using the QP/QVR Generator. You can access it <b><a href="https://nzdurriez.github.io/QP-QVR-GENERATOR/" target="_self" style="color:orange;">here</a></b>.</li>
+      <li>Copy and paste the generated QP information into the <code>/civ</code> command.</li>
+    </ol>
+    
+    <h2 class="step-title">Step 3: Activate Your Character</h2>
+    <ol class="substeps">
+      <li>After entering your QP, your character is created.</li>
+      <li>Mark your character as <strong>active</strong> in the Civilian Characters menu.</li>
+      <li>If you disconnect then rejoin the server later, You'll need to run the <code>/civ</code> command again to log in to your desired character.</li>
+    </ol>
+    
+    <h2 class="step-title">Step 4: Create Vehicle Information (QVR)</h2>
+    <ol class="substeps">
+      <li>QVR (Query Vehicle Registration) works similarly to QP but is for your vehicle.</li>
+      <li>Ensure you are inside the vehicle you wish to register.</li>
+      <li>Generate your QVR using the QP/QVR Generator.</li>
+      <li>Copy and paste the generated QVR information into the Civilian Vehicles section via <code>/civ</code>.</li>
+    </ol>
+    
+    <h2 class="step-title">Step 5: Final Notes</h2>
+    <ol class="substeps">
+      When stopped by the police, simply provide your name; they will search for your QP or QVR details.
+      Information on how to save vehicle information is available in section 6 of the rules.
+      If you need further assistance, please open a general support ticket on Discord.
+    </ol>
+    
+    <!-- Back to Top Button -->
+    <button id="backToTop">Back to Top</button>
+  </div>
+  
+  <script>
+    // Back to Top functionality
+    document.getElementById("backToTop").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
