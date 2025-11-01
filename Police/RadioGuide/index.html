@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Using the Radio</title>
+  <style>
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+    }
+    .container {
+      position: relative;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      border-radius: 10px;
+    }
+    .title { text-align: center; font-size: 2em; margin-bottom: 20px; }
+    h3 { margin-top: 1.5em; margin-bottom: .5em; font-size: 1.3em; border-bottom: 1px solid #444; padding-bottom: .3em; }
+    p, ol { margin: 0 0 1em; line-height: 1.5; }
+    ol { padding-left: 1.2em; }
+    code { background: #555; padding: 2px 4px; border-radius: 4px; font-family: monospace; color: #ffea75; }
+    .radio-image { display: block; max-width: 100%; margin: 20px auto; border: 1px solid #444; border-radius: 5px; }
+
+    /* overlay box or circle */
+    .overlay {
+      position: absolute;
+      pointer-events: none;
+      border: 2px solid #ffea75;
+      background: rgba(255,234,117,0.2);
+      display: none;
+      z-index: 5;
+    }
+    /* tooltip bubble */
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: #222;
+      color: #ffea75;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: .9em;
+      white-space: nowrap;
+      display: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">Using the Radio</h2>
+    <center><p>You'll need to be on the Police Radio to communicate and respond to events happening.</p></center>
+
+    <h3>1. Activating your Radio</h3>
+    <ol>
+      <li>Hit <code>T</code> on your keyboard to open your chat.</li>
+      <li>Type <code>/radio</code> then press <strong>Enter</strong>.</li>
+    </ol>
+    <p>Your radio should now appear in the bottom right of your screen.</p>
+
+    <h3>2. Set Up Your Channel & Callsign</h3>
+    <ol>
+      <li>Click the power button at the top right of the radio to turn it On/Off.</li>
+      <li>Click within the field showing <code>0.00</code>, type <code>1.00</code> and press <strong>Enter</strong>.</li>
+      <li>Tap the right arrow twice to move to the callsign field, enter your callsign, and press <strong>Enter</strong>.<br>
+      <li>Press <strong>Esc</strong> or type <code>/radio</code> again to put your radio away.</li>
+      <li>Hold <strong>Left Alt</strong> to transmit over the radio (This can be remapped in your FiveM Keybinds).</li>
+    </ol>
+
+    <h3>3. Radio Interface Guide</h3>
+    <img src="Radio.png" usemap="#image-map" alt="Police radio interface" class="radio-image" />
+    <map name="image-map">
+      <area alt="Power On/Off" title="Power On/Off" coords="157,9,22" shape="circle">
+      <area alt="Trigger Your OSA" title="Trigger Your OSA" coords="67,8,24" shape="circle">
+      <area alt="Volume Up" title="Volume Up" coords="56,217,22" shape="circle">
+      <area alt="Volume Down" title="Volume Down" coords="55,259,21" shape="circle">
+      <area alt="Channel & Callsign Selection" title="Channel & Callsign Selection" coords="51,71,180,139" shape="rect">
+    </map>
+    <center><p><em>Hover over each area for its function.</em></p></center>
+  </div>
+
+  <div class="overlay"></div>
+  <div class="tooltip"></div>
+
+  <script>
+    const img     = document.querySelector('.radio-image');
+    const areas   = document.querySelectorAll('area');
+    const overlay = document.querySelector('.overlay');
+    const tip     = document.querySelector('.tooltip');
+
+    areas.forEach(area => {
+      // disable clicking
+      area.addEventListener('click', e => e.preventDefault());
+
+      area.addEventListener('mouseenter', () => {
+        const rect = img.getBoundingClientRect();
+        const coords = area.coords.split(',').map(n => +n);
+        let x, y, w, h;
+
+        if (area.shape === 'circle') {
+          const [cx, cy, r] = coords;
+          x = cx - r; y = cy - r;
+          w = h = 2 * r;
+          overlay.style.borderRadius = '50%';
+        } else {  // rect
+          [x, y, w, h] = [coords[0], coords[1], coords[2] - coords[0], coords[3] - coords[1]];
+          overlay.style.borderRadius = '0';
+        }
+
+        // position and size overlay
+        overlay.style.left   = `${rect.left + window.scrollX + x}px`;
+        overlay.style.top    = `${rect.top  + window.scrollY + y}px`;
+        overlay.style.width  = `${w}px`;
+        overlay.style.height = `${h}px`;
+        overlay.style.display = 'block';
+
+        // tooltip text
+        let text = area.title;
+        if (area.title.includes('Channel & Callsign')) {
+          text = 'Channel & Callsign Screen | Hit your → arrow key to switch to the Callsign screen';
+        }
+
+        // position tooltip above the highlight
+        tip.textContent = text;
+        tip.style.left = `${rect.left + window.scrollX + x}px`;
+        tip.style.top  = `${rect.top  + window.scrollY + y - tip.offsetHeight - 6}px`;
+        tip.style.display = 'block';
+      });
+
+      area.addEventListener('mouseleave', () => {
+        overlay.style.display = 'none';
+        tip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
