@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NZ Police Driving Offences & Penalties</title>
+  <style>
+    /* ---------- Global Styles ---------- */
+    html, body {
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+	  
+    }
+	
+    /* Hide scrollbar in Chrome, Safari and Opera */
+	::-webkit-scrollbar {
+	display: none;
+	}
+
+	/* Hide scrollbar in Firefox */
+	html {
+	scrollbar-width: none;
+	}
+
+    /* ---------- Container ---------- */
+    .container {
+      max-width: 800px; /* Adjust as needed */
+      margin: 30px auto;
+      padding: 20px;
+      background: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      border-radius: 10px;
+    }
+    
+    .title {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    /* ---------- Form Groups ---------- */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .form-group input[type="text"],
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      background: #555;
+      color: white;
+    }
+    
+    /* ---------- Table Styling ---------- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #555;
+      font-family: monospace;
+    }
+    
+    th {
+      background: #444;
+      font-weight: bold;
+    }
+    
+    /* Make text wrap if necessary */
+    td {
+      word-break: break-word;
+    }
+
+    /* ---------- Alternating Row Colors ---------- */
+    /* Using nth-child selectors to alternate row colors */
+    #offencesTable tbody tr:nth-child(odd) {
+      background: #555;
+    }
+    #offencesTable tbody tr:nth-child(even) {
+      background: #444;
+    }
+    
+    /* ---------- Back to Top Button ---------- */
+    #backToTop {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+      margin: 20px auto 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Main Title and Description -->
+    <h2 class="title">NZ Police Driving Offences & Penalties</h2>
+    <p>
+      Use the dropdown to select a category or type in the search box to find a specific offence.
+    </p>
+    
+    <!-- Category Dropdown -->
+    <div class="form-group">
+      <label for="categorySelect">Select Category:</label>
+      <select id="categorySelect">
+        <option value="all">All</option>
+        <option value="Speed Offences">Speed Offences</option>
+        <option value="Warrant/Certificate of Fitness and Non-Operation Orders">Warrant/Certificate Orders</option>
+        <option value="Administration">Administration</option>
+        <option value="Vehicle Licence and Registration">Vehicle Licence & Registration</option>
+        <option value="Registration Plates">Registration Plates</option>
+        <option value="Restraints">Restraints</option>
+        <option value="Driver Licence">Driver Licence</option>
+        <option value="Learner Driver Licence">Learner Driver Licence</option>
+        <option value="Restricted Driver Licence">Restricted Driver Licence</option>
+        <option value="Cycle, Moped, or Motorcycle">Cycle, Moped or Motorcycle</option>
+        <option value="Intersections and Turning">Intersections & Turning</option>
+        <option value="Traffic Lights">Traffic Lights</option>
+        <option value="Signs">Signs</option>
+        <option value="Indicators and Signals">Indicators & Signals</option>
+        <option value="Pedestrians, Crossings and Railways">Pedestrians, Crossings & Railways</option>
+        <option value="Driving Manner and Driver Actions">Driving Manner & Driver Actions</option>
+        <option value="Vehicle Equipment">Vehicle Equipment</option>
+        <option value="Tyres and Wheels">Tyres & Wheels</option>
+        <option value="Modified Vehicles">Modified Vehicles</option>
+        <option value="Lighting (Use)">Lighting (Use)</option>
+        <option value="Lighting (Equipment)">Lighting (Equipment)</option>
+        <option value="Lanes">Lanes</option>
+        <option value="Overtaking and Passing">Overtaking & Passing</option>
+        <option value="Loads and Towing">Loads & Towing</option>
+        <option value="Motorway">Motorway</option>
+      </select>
+    </div>
+    
+    <!-- Search Input -->
+    <div class="form-group">
+      <label for="searchInput">Search by any field:</label>
+      <input type="text" id="searchInput" placeholder="Enter search term..." />
+    </div>
+    
+    <!-- Offences Table -->
+    <table id="offencesTable">
+      <thead>
+        <tr id="tableHeader">
+          <th>Code</th>
+          <th>Driving Offence</th>
+          <th>Penalty</th>
+          <th>Demerits</th>
+          <th>Penalty Info</th>
+          <th>Impound</th>
+          <th>Summons</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be dynamically generated -->
+      </tbody>
+    </table>
+    
+    <!-- Back to Top Button -->
+    <button id="backToTop">Back to Top</button>
+  </div>
+  
+  <script>
+    /* ---------- Data for Driving Offences ---------- */
+    /* The data is organized into categories. */
+    const drivingOffences = {
+      "Speed Offences": [
+        { code: "", offence: "SPEEDING - + <10km/h", penalty: "$30", demerits: "10", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "", offence: "SPEEDING - + 11-15km/h", penalty: "$80", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "", offence: "SPEEDING - + 16-20km/h", penalty: "$120", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "", offence: "SPEEDING - + 21-25km/h", penalty: "$170", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "", offence: "SPEEDING - + 26-30km/h", penalty: "$230", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "", offence: "SPEEDING - + 31-35km/h", penalty: "$300", demerits: "40", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "", offence: "SPEEDING - + 36-40km/h", penalty: "$400", demerits: "50", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "", offence: "SPEEDING - + 41-45km/h", penalty: "$510", demerits: "50", penaltyInfo: "", impound: "Yes", summons: "Yes", notes: "\"<40km/h incurs 28 Day Licence Suspension, unless in a temporary speed zone where licence suspension will incur <50km/h\"" },
+        { code: "", offence: "SPEEDING - + 46-50km/h", penalty: "$630", demerits: "50", penaltyInfo: "", impound: "Yes", summons: "Yes", notes: "\"<40km/h incurs 28 Day Licence Suspension, unless in a temporary speed zone where licence suspension will incur <50km/h\"" },
+        { code: "", offence: "SPEEDING - + >50km/h", penalty: "$630", demerits: "50", penaltyInfo: "Option to K9", impound: "Yes", summons: "Yes", notes: "\"<50km/h incurs 28 Day Licence Suspension, And can be charged with Careless, Dangerous, or Reckless Driving\"" }
+      ],
+      "Warrant/Certificate of Fitness and Non-Operation Orders": [
+        { code: "B113", offence: "INTERFERED WITH NON-OPERATION ORDER AFFIXED TO VEHICLE", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "(Removing green or pink sticker off vehicle)" },
+        { code: "B118", offence: "DROVE VEHICLE ISSUED WITH NON-OPERATION ORDER", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "(Driving vehicle with green or pink sticker)" },
+        { code: "C101", offence: "NO EVIDENCE OF INSPECTION - PRIVATE VEHICLE", penalty: "$200", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "C108", offence: "NOT UP TO WARRANT OF FITNESS STANDARD", penalty: "$200", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "C201", offence: "NO EVIDENCE OF INSPECTION - COMMERCIAL VEHICLE", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "C208", offence: "NOT UP TO CERTIFICATE OF FITNESS STANDARD", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Administration": [
+        { code: "B106", offence: "GAVE FALSE DETAILS AS TO OWN IDENTITY", penalty: "$750", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "B107", offence: "GAVE FALSE DETAILS AS TO DRIVER IDENTITY", penalty: "$750", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "B208", offence: "FAILED TO REPORT DAMAGE TO VEHICLE OR PROPERTY", penalty: "$370", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "H128", offence: "EXCEEDED MAXIMUM READING ON DISTANCE LICENCE - LIGHT ROAD USER CHARGES (UNDER 6,000KG)", penalty: "$200", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "H129", offence: "EXCEEDED MAXIMUM READING ON DISTANCE LICENCE - HEAVY ROAD USER CHARGES (UNDER 6,000KG)", penalty: "$300 - $1,500", demerits: "", penaltyInfo: "\"Overrun (km) 501-1,000km = $300, 1,001-2,500km = $600, 2,501-5000km = $1,000, <5,000km = $1,500\"", impound: "", summons: "", notes: "" }
+      ],
+      "Vehicle Licence and Registration": [
+        { code: "L452", offence: "OPERATED AN UNREGISTERED MOTOR VEHICLE", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L453", offence: "OPERATED AN UNLICENCED MOTOR VEHICLE", penalty: "$100", demerits: "15", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L455", offence: "CURRENT LICENCE LABEL AFFIXED IN PRESCRIBED MANNER", penalty: "$75", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L469", offence: "DISPLAYED OTHER THAN AUTHORISED MOTOR VEHICLE LICENCE", penalty: "$100", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L473", offence: "DROVE VEHICLE WITH TEMPORARY EXEMPTION FROM CONTINUOUS LICENCING", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "C208", offence: "NOT UP TO CERTIFICATE OF FITNESS STANDARD", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Registration Plates": [
+        { code: "L454", offence: "REGISTRATION PLATES NOT AFFIXED IN PRESCRIBED MANNER", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L468", offence: "DISPLAYED OTHER THAN AUTHORISED REGISTRATION PLATE", penalty: "$100", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L471", offence: "OBSCURED OR INDISTINGUISHABLE REGISTRATION PLATE (INDIVIDUAL)", penalty: "$100", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Restraints": [
+        { code: "M401", offence: "DRIVER OR PASSENGER NOT WEARING SAFETY BELT CORRECTLY", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N323", offence: "CARRIED PASSENGER IN A CARAVAN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O301", offence: "PERMITTED RIDING ON MOTOR VEHICLE IN A DANGEROUS POSITION", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O302", offence: "RODE ON A MOTOR VEHICLE IN A DANGEROUS POSITION", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Driver Licence": [
+        { code: "L114", offence: "FAILED TO PRODUCE DRIVER LICENCE", penalty: "$55", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L122", offence: "DROVE CONTRARY TO CONDITIONS OF DRIVER LICENCE", penalty: "$400", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L129", offence: "AIDED OR ABETTED AN UNLICENCED DRIVER TO DRIVE", penalty: "$400", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L144", offence: "DROVE WITHOUT APPROPRIATE DRIVER LICENCE", penalty: "$400", demerits: "", penaltyInfo: "Yes (2nd+ Offence)", impound: "", summons: "", notes: "" },
+        { code: "L148", offence: "AIDED OR ABETTED DRIVER WITH EXPIRED LICENCE TO DRIVE", penalty: "$400", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L149", offence: "DROVE WITH AN EXPIRED DRIVER LICENCE", penalty: "$400", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L536", offence: "DROVE IN BREACH OF AUTOMATIC TRANSMISSION CONDITION ON RESTRICTED LICENCE", penalty: "$100", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Learner Driver Licence": [
+        { code: "L504", offence: "LEARNER DRIVER UNACCOMPANIED", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L505", offence: "LEARNER'S OVERSEER HELD FULL LICENCE LESS THAN 2 YEARS", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L507", offence: "LEARNER'S OVERSEER NOT SEATED AS NEAR AS PRACTICABLE TO DRIVER", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L518", offence: "LEARNER RIDER RODE OTHER THAN APPROVED MOTORCYCLE", penalty: "$100", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L510", offence: "LEARNER RODE MOTORCYCLE OR MOPED BETWEEN 10PM AND 5AM", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L511", offence: "LEARNER CARRIED PILLION PASSENGER ON A MOTORCYCLE OR MOPED", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L514", offence: "LEARNER LICENCEE FAILED TO DISPLAY AN L-PLATE", penalty: "$100", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L515", offence: "AIDED LEARNER TO DRIVE UNACCOMPANIED", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Restricted Driver Licence": [
+        { code: "L523", offence: "RESTRICTED DRIVER UNACCOMPANIED BETWEEN 10PM AND 5AM", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L524", offence: "RESTRICTED DRIVER'S OVERSEER HELD FULL LICENCE UNDER 2 YEARS", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L526", offence: "RESTRICTED DRIVER'S OVERSEER NOT SEATED NEXT TO DRIVER", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L555", offence: "RESTRICTED RIDER RODE OTHER THAN APPROVED MOTORCYCLE", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L528", offence: "RESTRICTED DRIVER RODE MOTORCYCLE BETWEEN 10PM AND 5AM", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L529", offence: "RESTRICTED DRIVER CARRIED PILLION PASSENGER ON MOTORCYCLE OR MOPED", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L531", offence: "RESTRICTED DRIVER CARRIED UNAUTHORISED PASSENGER", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L533", offence: "AIDED RESTRICTED DRIVER UNACCOMPANIED BETWEEN 10PM AND 5AM", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "L535", offence: "AIDED RESTRICTED DRIVER TO DRIVE WITH UNQUALIFIED OVERSEER", penalty: "$100", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Cycle, Moped, or Motorcycle": [
+        { code: "O101", offence: "RODE A CYCLE MORE THAN TWO ABREAST", penalty: "$55", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O501", offence: "FAILED TO WEAR CYCLE HELMET", penalty: "$55", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O504", offence: "BICYCLE HELMET NOT SECURELY FASTENED", penalty: "$55", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O117", offence: "NO TAIL LIGHT ON MOPED", penalty: "$55", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O118", offence: "NO REAR RED REFLECTOR OR TAPE ON MOPED", penalty: "$55", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "S101", offence: "DRIVER FAILED TO WEAR SAFETY HELMET (NOT A BICYCLE HELMET)", penalty: "$50", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "S103", offence: "PASSENGER FAILED TO WEAR SAFETY HELMET", penalty: "$50", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V242", offence: "MOTORCYCLE OR MOPED FAILED TO USE HEADLAMP OR DAYTIME LAMP DURING DAY", penalty: "$100", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V621", offence: "OPERATED MOPED WITHOUT A BRAKE ON BOTH WHEELS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V622", offence: "OPERATED MOTORCYCLE WITHOUT A BRAKE ON BOTH WHEELS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V216", offence: "MOTORCYCLE NOT EQUIPPED WITH HEADLAMP", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V227", offence: "NO REAR REFLECTOR ON MOTORCYCLE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V306", offence: "NO STOP LAMP FITTED ON MOTORCYCLE", penalty: "$150", demerits: "", penaltyInfo: "Only vehicles registered after 1 Jan 1978 is applicable for this ION", impound: "", summons: "", notes: "" },
+        { code: "N332", offence: "CARRIED PASSENGER ON MOPED NO PILLION SEAT OR FOOTRESTS", penalty: "$55", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Intersections and Turning": [
+        { code: "D801", offence: "FAILED TO GIVE WAY TO A VEHICLE ON THE RIGHT", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D802", offence: "FAILED TO GIVE WAY WHEN TURNING - OTHER VEHICLE NOT TURNING", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D706", offence: "FAILED TO MOVE TO THE LEFT WHEN TURNING LEFT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D707", offence: "FAILED TO MOVE TO THE RIGHT WHEN TURNING RIGHT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D708", offence: "FAILED TO TURN INTO CORRECT POSITION AFTER TURNING RIGHT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F201", offence: "FAILED TO STOP AT STOP SIGN", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F202", offence: "FAILED TO GIVE WAY AT STOP SIGN", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F214", offence: "FAILED TO GIVE WAY ENTERING ROUNDABOUT", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F226", offence: "FAILED TO GIVE WAY AT A ONE-WAY GIVE-WAY SIGN", penalty: "$100", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F301", offence: "FAILED TO GIVE WAY AT A GIVE-WAY SIGN", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F604", offence: "ENTERED A BLOCKED INTERSECTION", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F605", offence: "INCREASED SPEED AT INTERSECTION", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Traffic Lights": [
+        { code: "D804", offence: "TURNED AT LIGHTS - FAILED TO GIVE WAY TO STRAIGHT-THROUGH TRAFFIC", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D809", offence: "TURNED RIGHT AT LIGHTS - FAILED TO GIVE WAY TO VEHICLE TURNING LEFT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F106", offence: "FAILED TO COMPLY WITH YELLOW TRAFFIC SIGNAL", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F110", offence: "FAILED TO COMPLY WITH RED TRAFFIC SIGNAL", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F112", offence: "FAILED TO COMPLY WITH YELLOW ARROW TRAFFIC SIGNAL", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F113", offence: "FAILED TO COMPLY WITH RED ARROW TRAFFIC SIGNAL", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Signs": [
+        { code: "F118", offence: "MADE A PROHIBITED U-TURN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F119", offence: "MADE A PROHIBITED LEFT OR RIGHT TURN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F120", offence: "FAILED TO COMPLY WITH A NO ENTRY SIGN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F601", offence: "FAILED TO COMPLY WITH DIRECTIONAL ARROWS (ROAD MARKING OR SIGN)", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Indicators and Signals": [
+        { code: "F218", offence: "FAILED TO INDICATE LEFT TURN AT ROUNDABOUT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F219", offence: "FAILED TO INDICATE RIGHT TURN AT ROUNDABOUT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "M310", offence: "FAILED TO SIGNAL STOPPING", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "<turn> <move to right> <move from left kerb>" },
+        { code: "M311", offence: "FAILED TO SIGNAL", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "M312", offence: "FAILED TO SIGNAL", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "<turn> <move to left> <move from right kerb>" }
+      ],
+      "Pedestrians, Crossings and Railways": [
+        { code: "D810", offence: "FAILED TO GIVE WAY TO ROAD USER ON FOOTPATH", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F103", offence: "DRIVER TURNING AT LIGHTS FAILED TO GIVE WAY TO PEDESTRIAN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F121", offence: "DRIVER TURNING AT LIGHTS FAILED TO GIVE WAY TO MOBILITY DEVICE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F122", offence: "DRIVER TURNING AT LIGHTS FAILED TO GIVE WAY TO RECREATIONAL DEVICE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F205", offence: "ENTERED BLOCKED RAILWAY CROSSING", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F220", offence: "FAILED TO COMPLY WITH RAIL BARRIER ARMS", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F221", offence: "RISKY CROSSING OF LEVEL CROSSING - VEHICLE", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F222", offence: "FAILED TO STOP FOR RED SIGNAL AT LEVEL CROSSING", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F401", offence: "FAILED TO YEILD RIGHT OF WAY AT A PEDESTRIAN CROSSING", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F404", offence: "BLOCKED A PEDESTRIAN CROSSING", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O202", offence: "PEDESTRIAN ON A MOTORWAY", penalty: "$250", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Driving Manner and Driver Actions": [
+        { code: "N101", offence: "NOISY VEHICLE", penalty: "$50", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N103", offence: "NOISY EQUIPMENT IN A VEHICLE", penalty: "$50", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N321", offence: "OPERATED IN MANNER LIABLE TO CAUSE (VIEW CONDITIONS)", penalty: "$600", demerits: "", penaltyInfo: "<damage> <injury> <annoyance>", impound: "", summons: "", notes: "" },
+        { code: "B404", offence: "EQUIPMENT IN VEHICLE DESIGNED TO INTERFERE WITH SPEED-MEASURING DEVICE", penalty: "$150", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D352", offence: "POURED, PLACED OR ALLOWED SLIPPERY SUBSTANCE TO SPILL ON ROAD", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D402", offence: "SLOW VEHICLE OR INCONSIDERATE DRIVING IMPEDED TRAFFIC", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D501", offence: "CARELESSLY OPENED OR CLOSED DOOR", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D727", offence: "DROVE ON LAWN, GARDEN OR OTHER CULTIVATION", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F117", offence: "DROVE THE WRONG WAY ON A ONE-WAY ROAD", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F502", offence: "FAILED TO MAKE WAY FOR BLUE-RED BEACONS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "Yes", summons: "", notes: "For blue-red beacons, display additional warning" },
+        { code: "M334", offence: "ALIGHTED FROM OR BOARDED A MOVING VEHICLE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N401", offence: "UNREASONABLE USE OF A WARNING DEVICE (HORN)", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N404", offence: "DROVE ON A FOOTPATH", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N411", offence: "DRIVER USED A MOBILE PHONE WHILE DRIVING", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O301", offence: "PERMITTED RIDING ON MOTOR VEHICLE IN DANGEROUS POSITION", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O302", offence: "RODE ON A MOTOR VEHICLE IN A DANGEROUS POSITION", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V452", offence: "OPERATED A MOTOR VEHICLE WITH DOOR OPEN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V494", offence: "NOISY EXHAUST", penalty: "$150", demerits: "25", penaltyInfo: "Green Sticker-able", impound: "", summons: "", notes: "Modified Exhaust is Green Stickerable unless Certified" }
+      ],
+      "Vehicle Equipment": [
+        { code: "M304", offence: "OPERATING VEHICLE EQUIPPED WITH BELL, SIREN, OR WHISTLE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N201", offence: "USED A VEHICLE THAT EMITTED EXCESSIVE SMOKE OR VAPOUR", penalty: "$150", demerits: "", penaltyInfo: "10 seconds or more", impound: "", summons: "", notes: "" },
+        { code: "N311", offence: "PART OF A MOTOR VEHICLE OR LOAD DRAGGED ON ROAD", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N318", offence: "DANGEROUS CONDITION OF A MOTOR VEHICLE", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V402", offence: "NO WARNING DEVICE (HORN)", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V406", offence: "OBSCURED WINDSCREEN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V445", offence: "OPERATED VEHICLE WITH DAMAGED WINDSCREEN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V610", offence: "OPERATED VEHICLE WITH UNSAFE SEAT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V640", offence: "OPERATED VEHICLE WITH UNSOUND SAFETY BELT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V641", offence: "OPERATED VEHICLE WITH CUT OR FRAYED SAFETY BELT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Tyres and Wheels": [
+        { code: "V555", offence: "NON-APPROVED WHEEL SPACER INSTALLED", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V556", offence: "OPERATED VEHICLE WITH DIFFERENT TYRES ON AN AXLE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V557", offence: "OPERATED VEHICLE WITH DAMAGED TYRE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V561", offence: "OPERATED VEHICLE WITH SMOOTH TYRE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V563", offence: "OPERATED VEHICLE WITH UNSAFE TYRE PRESSURE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Modified Vehicles": [
+        { code: "N101", offence: "OPERATED VEHICLE IN A NOISY MANNER", penalty: "$50", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N103", offence: "NOISY EQUIPMENT IN VEHICLE", penalty: "$50", demerits: "25", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V406", offence: "OBSCURED WINDSCREEN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V417", offence: "DEFECTIVE EXHAUST SYSTEM OR SILENCER ON MOTOR VEHICLE", penalty: "$150", demerits: "", penaltyInfo: "Green Sticker-able", impound: "", summons: "", notes: "" },
+        { code: "V439", offence: "USED GLAZING LIKELY TO DAZZLE OR ANNOY OTHER ROAD USERS", penalty: "$150", demerits: "", penaltyInfo: "Green Sticker-able", impound: "", summons: "", notes: "Mirror tint" },
+        { code: "V442", offence: "OPERATED A MOTOR VEHICLE WITH DARKENED WINDOWS", penalty: "$150", demerits: "", penaltyInfo: "Green Sticker-able", impound: "", summons: "", notes: "Stickers or tints" },
+        { code: "V447", offence: "OPERATED MOTOR VEHICLE WITH MODIFIED GLAZING", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V460", offence: "UNSAFE INTERIOR FITTING, CONTROL OR SURFACES", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V480", offence: "USED A VEHICLE WITH A FITTING LIABLE TO CAUSE INJURY", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V481", offence: "PROTRUDING FITTING AFFECTED DRIVER VISION OR CONTROL", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V482", offence: "COMPONENT OF MOTOR VEHICLE LIKELY TO HOOK PERSON OR VEHICLE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V493", offence: "EXHAUST SYSTEM NOT TAMPER RESISTANT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V494", offence: "NOISY EXHAUST", penalty: "$150", demerits: "25", penaltyInfo: "Green Sticker-able", impound: "", summons: "", notes: "Modified Exhaust is Green Stickerable unless Certified" },
+        { code: "V703", offence: "OPERATED A MODIFIED VEHICLE THAT WAS NOT CERTIFIED", penalty: "$200", demerits: "", penaltyInfo: "Green Sticker-able", impound: "", summons: "", notes: "" }
+      ],
+      "Lighting (Use)": [
+        { code: "V131", offence: "OPTIONAL LIGHTING EMITTED OTHER THAN DIFFUSE LIGHT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V132", offence: "OPTIONAL LIGHTING POSITIONED TOO CLOSE TO REQUIRED LIGHTING", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V133", offence: "OPTIONAL LIGHTING FLASHING", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V134", offence: "OPTIONAL LIGHTING REVOLVING", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V222", offence: "DROVE WITHOUT HEADLAMPS ON", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V230", offence: "IMPROPER USE OF HAZARD WARNING LIGHTS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V235", offence: "UNAUTHORISED USE OF BEACON (HORN)", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V242", offence: "MOTORCYCLE OR MOPED FAILED TO USE HEADLAMP OR DAYTIME LAMP DURING DAY", penalty: "$100", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V301", offence: "FAILED TO DIP HEADLAMPS FOR OTHER TRAFFIC", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V309", offence: "INAPPROPRIATE USE OF FOG LAMP", penalty: "$150", demerits: "", penaltyInfo: "During day or night in clear conditions", impound: "", summons: "", notes: "" },
+        { code: "V311", offence: "DAZZLING, CONFUSING OR DISTRACTING VEHICLE LIGHTS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V312", offence: "POSITION LAMPS NOT ILLUMINATED", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Lighting (Equipment)": [
+        { code: "V202", offence: "VEHICLE NOT EQUIPPED WITH HEADLAMPS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V204", offence: "DISPLAYED OTHER THAN RED OR AMBER LIGHT TO REAR", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V205", offence: "WRONGLY ADJUSTED HEADLIGHTS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V218", offence: "NO REAR RED REFLECTORS", penalty: "$150", demerits: "", penaltyInfo: "Not motorcycle", impound: "", summons: "", notes: "" },
+        { code: "V226", offence: "REAR NUMBER PLATE NOT ILLUMINATED", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V232", offence: "VEHICLE DISPLAYED OTHER THAN WHITE OR AMBER HEADLAMPS", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V236", offence: "DISPLAYED RED LAMP TO FRONT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V240", offence: "FORWARD-FACING POSITION LAMP NOT SUBSTANTIALLY WHITE OR AMBER", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V241", offence: "REARWARD-FACING POSITION LAMP NOT SUBSTANTIALLY RED", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "V305", offence: "NO STOP LAMPS FITTED", penalty: "$150", demerits: "", penaltyInfo: "Only vehicles registered after 1 Jan 1978 is applicable for this ION", impound: "", summons: "", notes: "" },
+        { code: "V308", offence: "OPERATED MOTOR VEHICLE WITHOUT HIGH-MOUNTED STOP LAMP", penalty: "$150", demerits: "", penaltyInfo: "Only vehicles registered after 1 Jan 1978 is applicable for this ION", impound: "", summons: "", notes: "" }
+      ],
+      "Lanes": [
+        { code: "D402", offence: "SLOW VEHICLE OR INCONSIDERATE DRIVING IMPEDED TRAFFIC", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D701", offence: "FAILED TO KEEP TO RIGHT", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D702", offence: "FAILED TO DRIVE ENTIRELY WITHIN LANES", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D704", offence: "UNSAFE CHANGING OF LANES", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D708", offence: "FAILED TO TURN INTO CORRECT POSITION AFTER TURNING RIGHT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D710", offence: "DROVE IN LANE OVER CENTRE LINE", penalty: "$150", demerits: "", penaltyInfo: "Two way - two lane", impound: "", summons: "", notes: "" },
+        { code: "D713", offence: "DROVE IN UNAVAILABLE LANE - WRONG SIDE OF NO PASSING LINE", penalty: "$150", demerits: "", penaltyInfo: "(Not overtaking)", impound: "", summons: "", notes: "" },
+        { code: "D715", offence: "CUT CORNER TURNING RIGHT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D719", offence: "UNAUTHORISED USE OF SPECIAL VEHICLE LANE", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D726", offence: "DROVE IN AN EMERGENCY STOPPING LANE (SHOULDER)", penalty: "$150", demerits: "10", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Overtaking and Passing": [
+        { code: "D601", offence: "CUT IN WHEN OVERTAKING", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D603", offence: "PASSED AT RAILWAY LEVEL CROSSING", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D604", offence: "PASSING WITH LESS THAN 100M VISIBILITY", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D605", offence: "ATTEMPTED TO PASS WITH LESS THAN 100M VISIBILITY", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D610", offence: "OVERTOOK ANOTHER VEHICLE - INSUFFICIENT CLEAR ROAD", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D611", offence: "OVERTOOK ACROSS FLUSH MEDIAN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D703", offence: "FAILED TO KEEP RIGHT OF NO PASSING LINE WHEN PASSING OR ATTEMPTING TO PASS", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D721", offence: "UNSAFE PASSING MANOEUVRE", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D722", offence: "INCONSIDERATE PASSING MANOEUVRE", penalty: "$150", demerits: "35", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "D723", offence: "UNLAWFULLY PASSED ON THE RIGHT", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F402", offence: "PASSED VEHICLE STOPPED AT PEDESTRIAN CROSSING", penalty: "$150", demerits: "20", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Loads and Towing": [
+        { code: "N301", offence: "UNSAFE LOADING OF A VEHICLE", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N311", offence: "PART OF A MOTOR VEHICLE OR LOAD DRAGGED ON ROAD", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N323", offence: "CARRIED PASSENGER IN A CARAVAN", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N353", offence: "OPERATED MOTOR VEHICLE WITH INSECURE LOAD", penalty: "$600", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N511", offence: "NO MARKINGS ON LOAD DURING DAYLIGHT HOURS", penalty: "$370", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N512", offence: "NO LIGHT MARKINGS OVER-WIDTH LOAD AT NIGHT", penalty: "$370", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N513", offence: "NO LIGHT MARKINGS OVER-LENGTH LOAD", penalty: "$370", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N518", offence: "EXCEEDED MAXIMUM FRONT OVERHANG", penalty: "$370", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N524", offence: "OPERATED OTHER VEHICLE WITH EXCESS REAR OVERHANG", penalty: "$370", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N525", offence: "OPERATED AN OVER HEIGHT VEHICLE OR LOAD (OVER 4.25M)", penalty: "", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "N536", offence: "VEHICLE OR LOAD EXCEEDED MAXIMUM WIDTH (OVER 2.5M)", penalty: "$370", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ],
+      "Motorway": [
+        { code: "D726", offence: "DROVE IN EMERGENCY LANE (SHOULDER)", penalty: "$150", demerits: "10", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F602", offence: "INCORRECTLY ENTERED A MOTORWAY", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F603", offence: "MADE A U-TURN ON MOTORWAY", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "F608", offence: "REVERSED ON MOTORWAY", penalty: "$150", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O112", offence: "USED A CYCLE ON MOTORWAY", penalty: "$250", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" },
+        { code: "O202", offence: "PEDESTRIAN ON A MOTORWAY", penalty: "$250", demerits: "", penaltyInfo: "", impound: "", summons: "", notes: "" }
+      ]
+    };
+
+    /* ---------- DOM Element References ---------- */
+    const categorySelect = document.getElementById("categorySelect");
+    const searchInput = document.getElementById("searchInput");
+    const tableBody = document.querySelector("#offencesTable tbody");
+    const tableHeader = document.getElementById("tableHeader");
+    
+    /* ---------- Helper Functions ---------- */
+    // Create and append a new table row with alternating colors.
+    function addRow(item, index) {
+      const row = document.createElement("tr");
+      // Apply alternating classes using the index.
+      row.className = (index % 2 === 0) ? "rowAlt1" : "rowAlt2";
+      
+      const cells = [
+        item.code,
+        item.offence,
+        item.penalty,
+        item.demerits,
+        item.penaltyInfo,
+        item.impound,
+        item.summons,
+        item.notes
+      ];
+      
+      cells.forEach(text => {
+        const td = document.createElement("td");
+        td.textContent = text;
+        row.appendChild(td);
+      });
+      tableBody.appendChild(row);
+    }
+    
+    // Update the table rows based on selected category and/or search term.
+    function updateTable() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      tableBody.innerHTML = "";
+      
+      // Reset header in case it was modified.
+      tableHeader.innerHTML = `
+          <th>Code</th>
+          <th>Driving Offence</th>
+          <th>Penalty</th>
+          <th>Demerits</th>
+          <th>Penalty Info</th>
+          <th>Impound</th>
+          <th>Summons</th>
+          <th>Notes</th>
+      `;
+      
+      let combinedData = [];
+      
+      if (categorySelect.value === "all") {
+        // Merge data from all categories.
+        for (let category in drivingOffences) {
+          combinedData = combinedData.concat(drivingOffences[category]);
+        }
+      } else {
+        combinedData = drivingOffences[categorySelect.value] || [];
+      }
+      
+      // Filter if a search term is provided.
+      if (searchTerm !== "") {
+        combinedData = combinedData.filter(item => {
+          const combinedFields = Object.values(item).join(" ").toLowerCase();
+          return combinedFields.includes(searchTerm);
+        });
+      }
+      
+      // Add rows with alternating colors.
+      combinedData.forEach((item, index) => addRow(item, index));
+    }
+    
+    /* ---------- Event Listeners ---------- */
+    categorySelect.addEventListener("change", () => {
+      // Clear search when a new category is selected.
+      searchInput.value = "";
+      updateTable();
+    });
+    
+    searchInput.addEventListener("keyup", updateTable);
+    
+    // Initial population of the table.
+    updateTable();
+    
+    // Back to Top Button functionality.
+    document.getElementById("backToTop").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
