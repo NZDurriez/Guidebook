@@ -1,0 +1,363 @@
+/* Guidebook shared theme — linked LAST in every page's <head> so it sits on
+   top of each page's own styles. Same look as StaffHub; tweak tokens here. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #0e1015;
+  --card: #171a22;
+  --card-2: #1d212b;
+  --field: #0f1218;
+  --line: #262b37;
+  --line-2: #323848;
+  --ink: #eef0f4;
+  --body: #c9ced9;
+  --muted: #8b93a5;
+  --honey: #f5a524;
+  --honey-2: #ffc35c;
+  --honey-soft: rgba(245, 165, 36, .12);
+  --font: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+  --display: 'Outfit', 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+
+/* ---------- Page ---------- */
+html, body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  background:
+    radial-gradient(1100px 480px at 100% -10%, rgba(245,165,36,.07), transparent 60%),
+    radial-gradient(900px 400px at -10% 110%, rgba(56,189,248,.05), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  line-height: 1.6;
+}
+strong, b { color: var(--ink); }
+a, a:visited { color: var(--honey) !important; text-decoration: none; font-weight: 600; }
+a:hover { color: var(--honey-2) !important; text-decoration: underline; }
+
+/* ---------- Main card ---------- */
+.container {
+  background: linear-gradient(180deg, var(--card-2), var(--card));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 24px 60px -24px rgba(0,0,0,.7);
+}
+
+/* ---------- Headings ---------- */
+.title, h1.title, h2.title {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  font-size: clamp(26px, 4vw, 34px);
+  line-height: 1.1;
+  text-align: center;
+  margin: 0 0 14px;
+}
+.title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin: 14px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--honey-2), var(--honey));
+  box-shadow: 0 0 18px rgba(245,165,36,.45);
+}
+h2.step-title, .container h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -.01em;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+h2.step-title { font-size: 1.35em; margin-top: 32px; }
+.container h3 { font-size: 1.15em; }
+
+p.instruction, p.note { color: var(--muted); }
+
+/* ---------- Inline code & keys ---------- */
+code {
+  font-family: var(--mono);
+  font-size: .9em;
+  color: var(--honey-2);
+  background: var(--honey-soft);
+  border: 1px solid rgba(245,165,36,.25);
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+/* ---------- Form fields ---------- */
+label { color: #b4bac8; font-weight: 600; font-size: 14px; }
+input, select, textarea {
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--ink);
+  background-color: var(--field);
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color .15s, box-shadow .15s;
+}
+input::placeholder, textarea::placeholder { color: #5d6577; }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--honey);
+  box-shadow: 0 0 0 3px var(--honey-soft);
+}
+select:not([multiple]) {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b93a5' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+}
+select option { background: var(--card); color: var(--ink); }
+select[multiple] { padding: 6px; }
+.dual-list-container select, .dual-list-container input,
+.form-group select, .form-group input[type="text"], .search-section input[type="text"] {
+  background-color: var(--field);
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.form-group select:not([multiple]) { padding-right: 36px; }
+select[multiple] option { padding: 6px 8px; border-radius: 6px; }
+
+/* ---------- Primary buttons ---------- */
+#backToTop, .back-button, button.generate, .toggle-instructions,
+.nav-buttons button, .toggle-buttons button, .dual-list-container button,
+.container > button {
+  font-family: var(--font);
+  font-weight: 700;
+  color: #1a1204;
+  background: linear-gradient(180deg, var(--honey-2), var(--honey));
+  border: 0;
+  border-radius: 11px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px -10px rgba(245,165,36,.75), 0 1px 0 rgba(255,255,255,.35) inset;
+  transition: filter .15s, transform .08s;
+}
+#backToTop:hover, .back-button:hover, button.generate:hover, .toggle-instructions:hover,
+.nav-buttons button:hover, .toggle-buttons button:hover, .dual-list-container button:hover,
+.container > button:hover { filter: brightness(1.07); background: linear-gradient(180deg, var(--honey-2), var(--honey)); }
+#backToTop:active, button.generate:active, .nav-buttons button:active { transform: translateY(1px); }
+
+/* Quieter secondary look for "Back to Top" and "Show Instructions" */
+#backToTop, .toggle-instructions {
+  color: var(--ink);
+  background: var(--card-2);
+  border: 1px solid var(--line-2);
+  box-shadow: none;
+}
+#backToTop:hover, .toggle-instructions:hover {
+  background: var(--card-2);
+  border-color: var(--honey);
+  filter: none;
+}
+
+/* Two-way switches (QP/QVR, Vehicle/Uniform) */
+.toggle-buttons {
+  gap: 6px;
+  padding: 5px;
+  background: var(--field);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  width: fit-content;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.toggle-buttons button { margin: 0 !important; padding: 10px 16px !important; }
+.toggle-buttons button:not(.active) { color: var(--muted); background: transparent; box-shadow: none; }
+.toggle-buttons button:not(.active):hover { color: var(--ink); background: rgba(255,255,255,.04); filter: none; }
+.nav-buttons button { padding: 16px 26px !important; font-size: 1.05em !important; border-radius: 14px; }
+
+/* Scene category buttons keep their colour coding, just softened */
+.btn-container button {
+  font-family: var(--font);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  transition: filter .15s, transform .08s;
+}
+.btn-container button:hover { filter: brightness(1.1); }
+.btn-blue { background: rgba(59,130,246,.15) !important; color: #93c5fd !important; border-color: rgba(59,130,246,.45) !important; }
+.btn-red { background: rgba(239,68,68,.15) !important; color: #fca5a5 !important; border-color: rgba(239,68,68,.45) !important; }
+.btn-yellow { background: rgba(250,204,21,.14) !important; color: #fde68a !important; border-color: rgba(250,204,21,.45) !important; }
+
+/* ---------- Tables ---------- */
+table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  font-size: 14px;
+}
+th, td {
+  font-family: var(--font) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
+  padding: 11px 14px !important;
+  vertical-align: top;
+  word-break: normal !important;
+  overflow-wrap: break-word;
+}
+th {
+  background: #12151c !important;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+tbody tr:last-child td { border-bottom: 0 !important; }
+tbody tr:nth-child(odd), tbody tr:nth-child(even),
+#offencesTable tbody tr:nth-child(odd), #offencesTable tbody tr:nth-child(even) { background: transparent; }
+tbody tr:nth-child(even), #offencesTable tbody tr:nth-child(even) { background: rgba(255,255,255,.02); }
+tbody tr:hover, #offencesTable tbody tr:hover { background: var(--honey-soft); }
+td:first-child { color: var(--ink); font-weight: 600; }
+
+/* ---------- Collapsible sections ---------- */
+details {
+  background: var(--field) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+details[open] { border-color: var(--line-2) !important; }
+details > *:not(summary) { margin-left: 18px; margin-right: 18px; }
+details > :last-child { margin-bottom: 16px; }
+details summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--display) !important;
+  font-weight: 700 !important;
+  font-size: 1.15em !important;
+  color: var(--ink);
+  padding: 16px 18px !important;
+  margin: 0 !important;
+  user-select: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::after {
+  content: "";
+  margin-left: auto;
+  flex: none;
+  width: 9px; height: 9px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform .2s;
+}
+details[open] summary::after { transform: rotate(-135deg); }
+details summary:hover { background: rgba(255,255,255,.02); }
+details[open] summary { border-bottom: 1px solid var(--line); margin-bottom: 12px !important; }
+details ul li::before { color: var(--honey); }
+
+/* ---------- Lists ---------- */
+ol.substeps li::marker, .container ol li::marker { color: var(--honey); font-weight: 700; }
+.container ul li::marker { color: var(--honey); }
+
+/* ---------- Images ---------- */
+.img-box, .radio-image { border: 1px solid var(--line-2) !important; border-radius: 12px !important; }
+
+/* ---------- Output boxes ---------- */
+.output, .output-box {
+  font-family: var(--mono) !important;
+  font-size: 13.5px;
+  color: #d7dbe4;
+  background: var(--field) !important;
+  border: 1px solid var(--line-2) !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+}
+.output:hover { border-color: var(--honey) !important; box-shadow: 0 0 0 3px var(--honey-soft); }
+.output:empty::before { content: "Output will appear here…"; color: #5d6577; font-family: var(--font); }
+.instructions-container {
+  background: var(--honey-soft) !important;
+  border: 1px solid rgba(245,165,36,.35) !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+}
+
+/* ---------- Page-specific touches ---------- */
+/* Player & Vehicle Interactions command chips */
+.cmd {
+  font-family: var(--mono);
+  color: var(--honey-2);
+  background: var(--honey-soft);
+  border: 1px solid rgba(245,165,36,.3);
+  border-radius: 7px;
+}
+.cmd:hover { background: rgba(245,165,36,.2); }
+.cmd img { border-color: var(--line-2); border-radius: 10px; background: var(--card); box-shadow: 0 16px 40px rgba(0,0,0,.6); }
+
+/* Vehicle & Uniform cards */
+.card { background: var(--field) !important; border: 1px solid var(--line); border-radius: 14px !important; padding: 14px !important; }
+.card img { border-radius: 10px !important; }
+.card p { color: var(--ink); font-weight: 600; }
+
+/* QP/QVR generator licence buttons: keep their colours, round them off */
+.license-buttons button, .radio-buttons button { border-radius: 9px !important; font-weight: 700; font-family: var(--font); min-width: 40px; padding: 7px 12px !important; }
+.radio-buttons button.active, .license-buttons button.active { outline: 3px solid var(--honey) !important; outline-offset: 2px; }
+.license-buttons button[data-tooltip]:hover::after { background: var(--card-2); border-color: var(--honey); border-radius: 7px; font-family: var(--font); }
+
+/* Custody guide warning */
+.warning { color: #fca5a5 !important; background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.3); border-radius: 12px; padding: 12px 14px; }
+
+/* Rights Caution keeps its notebook paper */
+.container:has(> .notebook) { background: none; border: 0; box-shadow: none; padding: 0; }
+.notebook {
+  color: #1f2937;
+  border-radius: 14px !important;
+  box-shadow: 0 24px 60px -20px rgba(0,0,0,.7) !important;
+  background-color: #fffdf7 !important;
+  background-image:
+    linear-gradient(to right, transparent 44px, #f87171 44px, #f87171 46px, transparent 46px),
+    repeating-linear-gradient(transparent 0px, transparent 31px, #dbeafe 32px) !important;
+  background-size: 100% 100%, 100% 32px !important;
+}
+.container .notebook ul li::marker { color: #ef4444; }
+.notebook strong, .notebook b { color: #111827; }
+.notebook h1 { font-family: var(--display); color: #111827; }
+.notebook label { color: #374151; }
+.notebook select { color: #111827; background-color: #fff; border-color: #cbd5e1; }
+.notebook select option { background: #fff; color: #111827; }
+
+/* AOP map overlays */
+.info-tooltip, #mapContainer .instructions {
+  font-family: var(--font) !important;
+  background: rgba(23,26,34,.92) !important;
+  border: 1px solid var(--line-2);
+  border-radius: 12px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.5);
+  color: var(--ink) !important;
+}
+
+/* Radio guide hover tooltip */
+.tooltip { font-family: var(--font); background: var(--card-2) !important; border: 1px solid var(--honey); border-radius: 8px !important; color: var(--honey-2) !important; }
+
+@media (max-width: 640px) {
+  .container { padding: 20px; margin: 12px !important; border-radius: 16px; }
+  /* Wide tables scroll sideways inside the card instead of pushing the page */
+  table { display: block; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+  th, td { min-width: 90px; }
+  .uniform-cards { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+}

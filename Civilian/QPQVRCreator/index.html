@@ -116,13 +116,14 @@ button.generate:hover { background:#0056b3; }
 }
 
 </style>
+  <link rel="stylesheet" href="../../theme.css" />
 </head>
 <body>
 <div class="container">
 <h2 class="title">QP & QVR Generator</h2>
 
 <div class="toggle-buttons">
-  <button>Vehicle | QVR Generator</button>
+  <button class="active">Vehicle | QVR Generator</button>
   <button>Character | QP Generator</button>
 </div>
 
@@ -130,39 +131,39 @@ button.generate:hover { background:#0056b3; }
 <div id="qvrSection" class="generator-section">
   <h3>QVR Creator</h3>
   <div class="form-group">
-    <label>Vehicle Plate:</label>
+    <label>Vehicle Plate</label>
     <input type="text" id="plate" maxlength="6" placeholder="ABC123" />
   </div>
   <div class="form-group">
-    <label>Registered Owner:</label>
+    <label>Registered Owner</label>
     <input type="text" id="owner" placeholder="Eg. John Doe" />
   </div>
   <div class="form-group">
-    <label>Warrant of Fitness:</label>
+    <label>Warrant of Fitness</label>
     <select id="woF"><option>Valid</option><option>Invalid</option></select>
   </div>
   <div class="form-group">
-    <label>Rego:</label>
+    <label>Rego</label>
     <select id="rego"><option>Valid</option><option>Invalid</option></select>
   </div>
   <div class="form-group">
-    <label>Vehicle Make:</label>
+    <label>Vehicle Make</label>
     <input type="text" id="make" placeholder="Eg. Nissan" />
   </div>
   <div class="form-group">
-    <label>Vehicle Model:</label>
+    <label>Vehicle Model</label>
     <input type="text" id="model" placeholder="Eg. Skyline" />
   </div>
   <div class="form-group">
-    <label>Year:</label>
+    <label>Year</label>
     <input type="text" id="year" maxlength="4" placeholder="2018" />
   </div>
   <div class="form-group">
-    <label>Colour:</label>
+    <label>Colour</label>
     <input type="text" id="color" placeholder="Eg. Red" />
   </div>
   <div class="form-group">
-    <label>Flags:</label>
+    <label>Flags</label>
     <input type="text" id="flags" placeholder="Eg. Owner has active WTA" />
   </div>
   <button class="generate" id="generateQVR">Generate QVR</button>
@@ -186,21 +187,21 @@ button.generate:hover { background:#0056b3; }
 <button class="generate" id="randomQP" style="margin-bottom:15px;">Randomize QP</button>
 
 <div class="form-group">
-  <label>First Name:</label>
+  <label>First Name</label>
   <div style="display:flex; align-items:center; gap:5px; width:55%;">
     <button class="dice-btn" id="diceFirstName">🎲</button>
     <input type="text" id="firstName" placeholder="John" style="flex:1;" />
   </div>
 </div>
 <div class="form-group">
-  <label>Last Name:</label>
+  <label>Last Name</label>
   <div style="display:flex; align-items:center; gap:5px; width:55%;">
     <button class="dice-btn" id="diceLastName">🎲</button>
     <input type="text" id="lastName" placeholder="Doe" style="flex:1;" />
   </div>
 </div>
 <div class="form-group">
-  <label>Date of Birth:</label>
+  <label>Date of Birth</label>
   <div style="display:flex; align-items:center; gap:5px; width:55%;">
     <button class="dice-btn" id="diceDOB">🎲</button>
     <input type="text" id="age" placeholder="01 Jan 1994" style="flex:1;" />
@@ -208,17 +209,17 @@ button.generate:hover { background:#0056b3; }
 </div>
 
 <div class="form-group">
-  <label>Address:</label>
+  <label>Address</label>
   <input type="text" id="address" placeholder="845 Grove Street" />
 </div>
 <div class="form-group">
-  <label>Occupation:</label>
+  <label>Occupation</label>
   <input type="text" id="occupation" placeholder="Software Engineer" />
 </div>
 
 <!-- Main License -->
 <div class="form-group checkbox-group">
-  <label>License(s):</label>
+  <label>License(s)</label>
   <div class="radio-buttons" id="mainLicenseBtns">
     <button type="button" data-value="1L">1L</button>
     <button type="button" data-value="1R">1R</button>
@@ -229,7 +230,7 @@ button.generate:hover { background:#0056b3; }
 
 <!-- Other Licenses Buttons -->
 <div class="form-group checkbox-group">
-  <label>Other License(s):</label>
+  <label>Other License(s)</label>
   <div class="license-buttons" id="otherLicenseBtns">
     <button type="button" data-value="2" data-tooltip="Medium rigid vehicle">2</button>
     <button type="button" data-value="3" data-tooltip="Medium combination vehicle">3</button>
@@ -243,7 +244,7 @@ button.generate:hover { background:#0056b3; }
 <!-- Dual Lists for Flags -->
 <div class="dual-list-container">
   <div>
-    <label>Flags:</label>
+    <label>Flags</label>
     <select id="flagsList" multiple></select>
   </div>
   <div style="display:flex; flex-direction:column; gap:5px; justify-content:center;">
@@ -251,7 +252,7 @@ button.generate:hover { background:#0056b3; }
     <button type="button" id="removeFlag">←</button>
   </div>
   <div>
-    <label>Selected Flags:</label>
+    <label>Selected Flags</label>
     <select id="selectedFlags" multiple></select>
     <input type="text" id="freeFlags" placeholder="e.g Warrant to Arrest: Aggravated Robbery" />
   </div>
@@ -259,7 +260,7 @@ button.generate:hover { background:#0056b3; }
 <br><br>
 <div class="dual-list-container">
   <div>
-    <label>Staff Safety Flags:</label>
+    <label>Staff Safety Flags</label>
     <select id="staffFlagsList" multiple></select>
   </div>
   <div style="display:flex; flex-direction:column; gap:5px; justify-content:center;">
@@ -267,7 +268,7 @@ button.generate:hover { background:#0056b3; }
     <button type="button" id="removeStaffFlag">←</button>
   </div>
   <div>
-    <label>Selected Staff Safety Flags:</label>
+    <label>Selected Staff Safety Flags</label>
     <select id="selectedStaffFlags" multiple></select>
     <input type="text" id="freeStaffFlags" placeholder="e.g Aggressive toward Police" />
   </div>
@@ -368,10 +369,12 @@ const [qvrBtn, qpBtn] = document.querySelectorAll('.toggle-buttons button');
 qvrBtn.addEventListener('click', ()=>{
   document.getElementById('qvrSection').style.display='block';
   document.getElementById('qpSection').style.display='none';
+  qvrBtn.classList.add('active'); qpBtn.classList.remove('active');
 });
 qpBtn.addEventListener('click', ()=>{
   document.getElementById('qvrSection').style.display='none';
   document.getElementById('qpSection').style.display='block';
+  qpBtn.classList.add('active'); qvrBtn.classList.remove('active');
 });
 
 // Toggle instructions

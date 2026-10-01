@@ -214,6 +214,7 @@
       display: none;
     }
   </style>
+  <link rel="stylesheet" href="../../theme.css" />
 </head>
 <body>
   <!-- Splash Page -->
@@ -247,7 +248,7 @@
     
     <!-- Search Field -->
     <div class="form-group">
-      <label for="vehicleSearch">Search Vehicles:</label>
+      <label for="vehicleSearch">Search Vehicles</label>
       <input type="text" id="vehicleSearch" placeholder="Enter search term (e.g., Holden)..." onkeyup="searchVehicles()">
     </div>
     <table class="search-results-table">
@@ -355,7 +356,7 @@
       </ul>
       <!-- Marked Vehicle Classes Dropdown (Category A only) -->
       <div class="form-group">
-        <label for="markedClassSelect">Marked Vehicle Classes (Category A):</label>
+        <label for="markedClassSelect">Marked Vehicle Classes (Category A)</label>
         <select id="markedClassSelect" onchange="displayMarkedClasses()">
           <option value="">-- Select a Class --</option>
           <option value="A">Category A Vehicles (Marked)</option>
@@ -364,7 +365,7 @@
       </div>
       <!-- Unmarked Vehicle Classes Dropdown for Categories B, C, D -->
       <div class="form-group">
-        <label for="unmarkedClassSelect">Unmarked Vehicle Classes:</label>
+        <label for="unmarkedClassSelect">Unmarked Vehicle Classes</label>
         <select id="unmarkedClassSelect" onchange="displayUnmarkedClasses()">
           <option value="">-- Select a Class --</option>
           <option value="B">Category B Vehicles (Unmarked)</option>
